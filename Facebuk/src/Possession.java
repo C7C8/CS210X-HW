@@ -1,23 +1,16 @@
 
-public class Possession {
+public class Possession extends Entity {
 
 	private Person owner;
-	private String name;
-	private Image picture;
 	private Float price;
 	
 	public Possession(String n, Image i, Float money){
-		name = n;
-		picture = i;
+		super(n, i);
 		price = money;
 	}
 	
 	public Float getPrice(){
 		return price;
-	}
-	
-	public Image getImage(){
-		return picture;
 	}
 	
 	public void setOwner(Person p){

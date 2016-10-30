@@ -1,26 +1,13 @@
 import java.util.ArrayList;
 
-public class Pet {
+public class Pet extends Entity {
+	public Pet(String nName, Image nPicture){
+		super(nName, nPicture);
+	}
+
 	ArrayList friends = new ArrayList(); // can have both Person and Pet objects
 	ArrayList<Person> owners = new ArrayList<Person>();
 	ArrayList<Moment> moments = new ArrayList<Moment>();
-
-	private String name;
-	private Image picture;
-
-	public Pet(){};
-
-	public Pet(String n, Image i){
-		name = n;
-		picture = i;
-	}
-
-	public String getName(){
-		return name;
-	}
-	public Image getImage(){
-		return picture;
-	}
 	
 	public void setFriends(ArrayList f){
 		for(Object x : f){
