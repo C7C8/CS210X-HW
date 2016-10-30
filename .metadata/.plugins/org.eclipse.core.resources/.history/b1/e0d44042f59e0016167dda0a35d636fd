@@ -44,7 +44,7 @@ public class FacebukTester {
 		michelleAndBarack.add(barack);
 		
 		// Pets
-		Pet bo = new Pet("Bo", new Image("Bo.png")); 
+		Pet bo = new Pet("Bo", new Image("Bo.png"));
 		Pet sunny = new Pet("Sunny", new Image("Sunny.png"));
 
 		// M&S
@@ -64,7 +64,7 @@ public class FacebukTester {
 		sunny.setFriends(maliaAndBo);
 
 		// Possessions
-		Possession boxingBag = new Possession("BoxingBag", new Image("BoxingBag.png"), 20.0f); 
+		Possession boxingBag = new Possession("BoxingBag", new Image("BoxingBag.png"), 20.0f);
 		boxingBag.setOwner(michelle);
 
 		// Groups of people and their smiles
