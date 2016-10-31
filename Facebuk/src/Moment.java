@@ -13,5 +13,19 @@ public class Moment {
 	this.smiles = smiles;
 	}
 	
+	public Float getHappiness(){
+		Float happy = (float) .0;
+		for(int x=0;x<smiles.size();x++){
+			happy+= smiles.get(x);
+		}
+		return (happy/(smiles.size()));
+	}
 	
+	public ArrayList getThere(){
+		return there;
+	}
+	
+	public ArrayList getSmiles(){
+		return smiles;
+	}
 }

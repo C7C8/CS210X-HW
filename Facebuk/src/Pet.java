@@ -22,8 +22,8 @@ public class Pet {
 		return picture;
 	}
 	
-	public void setFriends(ArrayList<Person> f){
-		for(Person x : f){
+	public void setFriends(ArrayList f){
+		for(Object x : f){
 		 friends.add(x);
 		}
 	}
