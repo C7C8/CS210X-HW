@@ -56,7 +56,8 @@ public class Person extends Friendable {
 				totalHappy = totalHappy + moment.getPersonHappinessByName(friend.name);
 			}
 			
-			if (totalHappy / timesAppeared > maxHappy) {
+			//divide-by-zero check takes advantage of short circuit && evaluation
+			if (timesAppeared != 0 && totalHappy / timesAppeared > maxHappy) {
 				maxPerson = friend;
 				maxHappy = totalHappy / timesAppeared;
 			}
