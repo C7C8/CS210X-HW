@@ -1,4 +1,4 @@
-public class Entity {
+public abstract class Entity {
 	public String name;
 	public Image picture;
 	

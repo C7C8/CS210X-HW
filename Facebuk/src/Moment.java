@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Moment extends Entity {
-	public ArrayList<Entity> participants;
+	public ArrayList<Friendable> participants;
 	public ArrayList<Float> smiles = new ArrayList<Float>(); //matches up with participants
 
-	public Moment(String n, Image i, ArrayList who, ArrayList nSmiles){
+	public Moment(String n, Image i, ArrayList<Friendable> who, ArrayList<Float> nSmiles){
 		super(n, i);
 		name = n;
 		picture = i;
@@ -28,9 +28,9 @@ public class Moment extends Entity {
 	}
 	
 	//Returns the person if they're in here, null otherwise
-	public Entity getPersonByName(String fName)
+	public Friendable getPersonByName(String fName)
 	{
-		for (Entity p : participants)
+		for (Friendable p : participants)
 			if (p.name.equals(fName))
 				return p;
 		return null;

@@ -11,6 +11,6 @@ to add multiple different other Entity-type objects.
 ##Friendable
 
 The Friendable class was created to accomodate classes that can have
-friends -- specifically, Person and Pet. It too is intended to
-remove redundancy, with the added bonus of helping to make a certain
-function more type-safe.
+friends -- specifically, Person and Pet. It removes redundacy from
+the code and helps restrict what can and cannot be a friend (so
+kickboxing bags *cannot* be friends with someone).
