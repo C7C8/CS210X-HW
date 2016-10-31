@@ -15,6 +15,10 @@ public class Pet extends Entity {
 		}
 	}
 	
+	public void setMoments(ArrayList<Moment> newMoments){
+		moments = newMoments;
+	}
+	
 	public void setOwners(ArrayList<Person> f){
 		for(Person x : f){
 		 owners.add(x);

@@ -18,28 +18,8 @@ public class Person extends Entity {
 				items.equals(p.items) &&
 				moments.equals(p.moments));
 	}
-
-	public void setFriends(ArrayList<Person> f){
-		for(Person x : f){
-		 friends.add(x);
-		}
-	}
-
-	public void addPet(Pet p){
-		pets.add(p);
-	}
 	
-	public void removePet(Pet p){
-		pets.remove(p);
-	}
 	
-	public void addPoss(Possession p){
-		items.add(p);
-	}
-	
-	public void removePoss(Possession p){
-		items.remove(p);
-	}
 	
 	public void setMoments(ArrayList<Moment> mom){
 		for(Moment x : mom){
@@ -50,7 +30,7 @@ public class Person extends Entity {
 	/**
 	 * getHappiestMoment() takes an Entity object and determines which Moment was its happiest 
 	 * "Happiest" based on the average smileValue for all participants in that Moment
-	 * @return Moment
+	 * @return Moment, null if there are no moments.
 	 */
 	public Moment getHappiestMoment(){
 		if(moments.isEmpty()){
