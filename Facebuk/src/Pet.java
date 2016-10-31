@@ -5,7 +5,6 @@ public class Pet extends Friendable {
 		super(nName, nPicture);
 	}
 
-	ArrayList<Entity> friends = new ArrayList<Entity>(); // can have both Person and Pet objects
 	ArrayList<Person> owners = new ArrayList<Person>();
 	ArrayList<Moment> moments = new ArrayList<Moment>();
 
