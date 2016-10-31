@@ -12,8 +12,7 @@ public class FacebukTester {
 	private ArrayList pets;
 	private ArrayList possessions;
 	private ArrayList moments;
-	private Person barack;
-	private static Person michelle;
+	private Person barack, michelle;
 	private Moment meAndBarack;
 
 	/**
