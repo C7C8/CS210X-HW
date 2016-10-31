@@ -18,13 +18,21 @@ public class Person extends Entity {
 				items.equals(p.items) &&
 				moments.equals(p.moments));
 	}
-
+	
+	public void addFriend(Person p){
+		friends.add(p);	
+	}
+	
 	public void setFriends(ArrayList<Person> f){
 		for(Person x : f){
 		 friends.add(x);
 		}
 	}
-
+	
+	public void removeFriend(Person p){
+		friends.remove(p);
+	}
+	
 	public void addPet(Pet p){
 		pets.add(p);
 	}
@@ -53,7 +61,7 @@ public class Person extends Entity {
 	 * @return Moment
 	 */
 	public Moment getHappiestMoment(){
-		if(moments.isEmpty()){
+		if(moments.size()<1){
 			return null;
 		}
 		Moment happiest = moments.get(0);

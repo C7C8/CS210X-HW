@@ -11,16 +11,9 @@ public class Moment extends Entity {
 		participants = who;
 		smiles = nSmiles;
 	}
-	/**
-	 * getHappiness() produces the average happiness of a Moment
-	 * average happiness of a moment is the average smile value for all participants in a Moment
-	 * @return Float
-	 */ 
+
 	public Float getHappiness(){
-		Float happy = 0f;
-		if(smiles.isEmpty()){
-			return happy;
-		}
+		Float happy = (float) .0;
 		for(int x=0;x<smiles.size();x++){
 			happy+= smiles.get(x);
 		}
