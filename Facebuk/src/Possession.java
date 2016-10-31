@@ -9,6 +9,13 @@ public class Possession extends Entity {
 		price = money;
 	}
 	
+	public boolean equals(Possession p){
+		return (price == p.getPrice() &&
+				owner.equals(p.owner) &&
+				name.equals(p.name) &&
+				picture.equals(p.picture));
+	}
+	
 	public Float getPrice(){
 		return price;
 	}

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Moment extends Entity {
-	public ArrayList participants;
-	public ArrayList<Float> smiles = new ArrayList<Float>();
+	public ArrayList<Entity> participants;
+	public ArrayList<Float> smiles = new ArrayList<Float>(); //matches up with participants
 
 	public Moment(String n, Image i, ArrayList who, ArrayList nSmiles){
 		super(n, i);

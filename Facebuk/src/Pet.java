@@ -5,12 +5,12 @@ public class Pet extends Entity {
 		super(nName, nPicture);
 	}
 
-	ArrayList friends = new ArrayList(); // can have both Person and Pet objects
+	ArrayList<Entity> friends = new ArrayList<Entity>(); // can have both Person and Pet objects
 	ArrayList<Person> owners = new ArrayList<Person>();
 	ArrayList<Moment> moments = new ArrayList<Moment>();
-	
-	public void setFriends(ArrayList f){
-		for(Object x : f){
+
+	public void setFriends(ArrayList<Entity> f){
+		for(Entity x : f){
 		 friends.add(x);
 		}
 	}

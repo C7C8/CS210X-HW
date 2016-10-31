@@ -116,10 +116,10 @@ public class FacebukTester {
 		assertEquals(michelle.getHappiestMoment(), meAndBarack);
 	}
 
-	//@Test
-	//public void testGetFriendWithWhomIAmHappiest () {
-	//	assertEquals(michelle.getFriendWithWhomIAmHappiest(), barack);
-	//}
+	@Test
+	public void testGetFriendWithWhomIAmHappiest () {
+		assertEquals(michelle.getFriendWithWhomIAmHappiest(), barack);
+	}
 
 	@Test
 	public void testFacebukFromProjectDescription () {
