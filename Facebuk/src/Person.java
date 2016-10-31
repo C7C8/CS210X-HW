@@ -5,9 +5,7 @@ public class Person extends Entity {
 	private ArrayList<Pet> pets = new ArrayList<Pet>();
 	private ArrayList<Possession> items = new ArrayList<Possession>();
 	private ArrayList<Moment> moments = new ArrayList<Moment>();
-	private String name;
-	private Image picture;
-	
+		
 	public Person(String nName, Image nPicture){
 		super(nName, nPicture);
 	}
@@ -83,19 +81,11 @@ public class Person extends Entity {
 			float timesAppeared = 0;
 			float totalHappy = 0;
 			for (Moment moment : moments) {
-				boolean inMoment = false;
-				for (Entity tempFriend : moment.participants)
-					if (tempFriend.name.equals(friend.name))
-						inMoment = true;
-				if (!inMoment)
+				if (moment.getPersonByName(friend.name) == null)
 					continue;
 				
-				
 				timesAppeared++;
-				//Find the person's associated happiness value
-				for (int i = 0; i < moment.participants.size(); i++)
-					if (moment.participants.get(i).name.equals(name))
-						totalHappy += moment.smiles.get(i);
+				totalHappy = totalHappy + moment.getPersonHappinessByName(friend.name);
 			}
 			
 			if (totalHappy / timesAppeared > maxHappy) {
