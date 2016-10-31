@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Pet extends Friendable {
 	public Pet(String nName, Image nPicture){
-		super(nName, nPicture, new ArrayList<Friendable>());
+		super(nName, nPicture);
 	}
 
 	ArrayList<Entity> friends = new ArrayList<Entity>(); // can have both Person and Pet objects
