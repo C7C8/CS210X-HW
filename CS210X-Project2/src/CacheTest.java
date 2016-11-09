@@ -56,6 +56,7 @@ public class CacheTest {
 	
 		//9,5,10,8,7
 		//Get 7 from the end and move to beginning
+		System.out.println("Getting 7");
 		cache.get(7);
 		assertTrue(((LRUCache<Integer, Integer>)cache).inCache(8));
 		assertEquals(((LRUCache<Integer, Integer>)cache).getNumMisses(), 7);
@@ -63,8 +64,8 @@ public class CacheTest {
 		//7,9,5,10,8
 		//Get 25, bumping off 8 and adding a cache miss
 		cache.get(25);
-		//assertFalse(((LRUCache<Integer, Integer>)cache).inCache(8));
-		//assertEquals(((LRUCache<Integer, Integer>)cache).getNumMisses(), 8);
+		assertFalse(((LRUCache<Integer, Integer>)cache).inCache(8));
+		assertEquals(((LRUCache<Integer, Integer>)cache).getNumMisses(), 8);
 		
 		for (int i = 5; i < 26; i++)
 			if (((LRUCache<Integer, Integer>)cache).inCache(i))

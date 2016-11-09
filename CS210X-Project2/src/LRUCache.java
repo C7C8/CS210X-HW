@@ -39,32 +39,31 @@ public class LRUCache<T, U> implements Cache<T, U> {
 
 	public U get (T key) {
 		Node<T, U> result = null;
-		if (data.containsKey(key))
+		if (data.containsKey(key)){
 			result = data.get(key);
+			
+			//Splice it out!
+			if (data.size() > 1){
+				if (result.prev != null)
+					result.prev.next = result.next;
+				if (result.next != null)
+					result.next.prev = result.prev;
+			}
+		}
 		else{
 			numMisses++;
 			result = new Node<T, U>(key, provider.get(key));
 			data.put(key, result);
 		}
 		
-		//print out the current list
-		if (head != null){
-			Node<T, U> temp = head;
-			
-			while (temp != null){
-				System.out.printf("%d,", temp.key);
-			}
-		}
-		//Splice out the existing node (if present)
-		if (data.containsKey(key)){
-			if (result.prev != null)
-				result.prev.next = result.next;
-			if (result.next != null)
-				result.next.prev = result.prev;
+		//Edge case where cached number is at end of the list
+		if (result == tail && data.size() > 1){
+			tail = tail.prev;
+			tail.next = null;
 		}
 		
 		//Move result to beginning of list... unless head is null
-		if (head != null){
+		if (head != null && (data.size() > 1 || !data.containsKey(key))){
 			head.prev = result;
 			result.prev = null;
 			result.next = head;
@@ -83,6 +82,13 @@ public class LRUCache<T, U> implements Cache<T, U> {
 			tail.prev.next = null;
 			tail = tail.prev;
 		}
+		if (data.size() == 2) //Sshhh, don't ask questions about this
+			tail.prev = head;
+		
+		System.out.printf("Head key: %d\n", head.key);
+		System.out.printf("Tail key: %d\n", tail.key);
+		System.out.printf("Does tail point somewhere? %b\n", tail.next != null);
+		System.out.printf("What does tail point to? %d\n\n", tail.next == null ? 0 : tail.next.key);
 		
 		return result.data;
 	}
