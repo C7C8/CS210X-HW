@@ -1,3 +1,4 @@
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -43,24 +44,44 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		else{
 			numMisses++;
 			result = new Node<T, U>(key, provider.get(key));
+			data.put(key, result);
 		}
 		
-		//Splice out the existing node (if present) and move to beginning of list
+		//print out the current list
+		if (head != null){
+			Node<T, U> temp = head;
+			
+			while (temp != null){
+				System.out.printf("%d,", temp.key);
+			}
+		}
+		//Splice out the existing node (if present)
 		if (data.containsKey(key)){
-			result.prev.next = result.next;
-			result.next.prev = result.prev;
+			if (result.prev != null)
+				result.prev.next = result.next;
+			if (result.next != null)
+				result.next.prev = result.prev;
 		}
 		
-		//Move result to beginning of list
-		head.prev = result;
-		result.prev = null;
-		result.next = head;
-		head = result;
+		//Move result to beginning of list... unless head is null
+		if (head != null){
+			head.prev = result;
+			result.prev = null;
+			result.next = head;
+			head = result;
+		}
+		else {
+			head = result;
+			tail = result;
+		}
 		
 		//Remove tail if necessary
 		if (data.size() > CAPACITY){
-			tail.prev.next = null;
+			//No nullptr check since size can't be > 0 and tail be null
+			System.out.printf("Bumping key %d off to make room for %d\n", tail.key, result.key);
 			data.remove(tail.key);
+			tail.prev.next = null;
+			tail = tail.prev;
 		}
 		
 		return result.data;
@@ -68,5 +89,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	
 	public int getNumMisses () {
 		return numMisses;
+	}
+	
+	public boolean inCache(T key){
+		return data.containsKey(key);
 	}
 }
