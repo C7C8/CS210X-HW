@@ -1,4 +1,3 @@
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -65,8 +64,8 @@ public class LRUCache<T, U> implements Cache<T, U> {
 			tail.next = null;
 		}
 		
-		//Move result to beginning of list... unless head is null
-		if (head != null && (data.size() > 1 || !data.containsKey(key))){
+		//Move result to beginning of list
+		if (data.size() > 1) {
 			head.prev = result;
 			result.prev = null;
 			result.next = head;
@@ -84,8 +83,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 			tail.prev.next = null;
 			tail = tail.prev;
 		}
-		if (data.size() == 2) //When expanding the list from 1->2 elements.
-			tail.prev = head; //Might not be necessary... who knows?
 		
 		return result.data;
 	}
@@ -94,7 +91,8 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		return numMisses;
 	}
 	
-	public boolean inCache(T key){
+	protected boolean inCache(T key){
+		//Used for testing, should be invisible to the client
 		return data.containsKey(key);
 	}
 }
