@@ -42,6 +42,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		if (data.containsKey(key)){
 			result = data.get(key);
 			
+			if (result == head)		//No need to do anything else!
+				return result.data; //Also fixes a bug that we'd rather not discuss
+			
 			//Splice it out!
 			if (data.size() > 1){
 				if (result.prev != null)
@@ -77,18 +80,12 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		//Remove tail if necessary
 		if (data.size() > CAPACITY){
 			//No nullptr check since size can't be > 0 and tail be null
-			System.out.printf("Bumping key %d off to make room for %d\n", tail.key, result.key);
 			data.remove(tail.key);
 			tail.prev.next = null;
 			tail = tail.prev;
 		}
-		if (data.size() == 2) //Sshhh, don't ask questions about this
-			tail.prev = head;
-		
-		System.out.printf("Head key: %d\n", head.key);
-		System.out.printf("Tail key: %d\n", tail.key);
-		System.out.printf("Does tail point somewhere? %b\n", tail.next != null);
-		System.out.printf("What does tail point to? %d\n\n", tail.next == null ? 0 : tail.next.key);
+		if (data.size() == 2) //When expanding the list from 1->2 elements.
+			tail.prev = head; //Might not be necessary... who knows?
 		
 		return result.data;
 	}
