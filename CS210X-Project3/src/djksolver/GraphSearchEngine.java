@@ -1,9 +1,10 @@
+package djksolver;
 import java.util.List;
 
 /**
  * Graph search engine that finds shortest paths between pairs of nodes
  */
-interface GraphSearchEngine {
+public interface GraphSearchEngine {
 	/**
 	 * Finds a shortest path between node s and node t
 	 * @param s the source node

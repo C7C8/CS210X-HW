@@ -1,10 +1,11 @@
+package djksolver;
 import java.util.*;
 
 /**
  * An interface for a graph that contains inter-connected nodes, each of
  * which has a unique name.
  */
-interface Graph {
+public interface Graph {
 	/**
 	 * Gets all the nodes in the graph.
 	 * @return a collection of all the nodes in the graph.
