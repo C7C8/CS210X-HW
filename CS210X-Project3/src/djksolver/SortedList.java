@@ -35,7 +35,8 @@ class SortedList<T>{
 		size--;
 		Sortable<T> data = head.data;
 		head = head.next;
-		head.next = null;
+		if (head != null)
+			head.next = null;
 		return data;
 	}
 	
@@ -58,6 +59,7 @@ class SortedList<T>{
 				if (cur.next != null)
 					cur.next.prev = item;
 				cur.next = item;
+				return;
 			}
 		}
 		

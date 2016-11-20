@@ -44,6 +44,9 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 					break;
 				}
 				
+				if (e == node)
+					continue; //Skip self
+				
 				DjkNode expNode = new DjkNode(e);
 				expNode.parent = node;
 				expNode.g = node.g + 1;
@@ -55,6 +58,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		List<Node> cList = new ArrayList<Node>();
 		for (DjkNode node = end; node.parent != null; node = node.parent)
 			cList.add(node.orig);
+		cList.add(s);
 		
 		openList.clear(); //Clean up! All those unneeded DjkNodes go away now.
 		return cList;
