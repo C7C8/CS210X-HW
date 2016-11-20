@@ -2,45 +2,30 @@ package djksolver;
 import java.util.Collection;
 import java.util.ArrayList;
 
-public class DjkNode implements Node, Sortable<DjkNode>{
-	String name;
-	ArrayList<DjkNode> nbs; //I am NOT writing out neighbors every time!
+public class DjkNode implements Sortable<DjkNode>{
 	DjkNode parent;
 	Integer g;
+	Node orig; //Today I have discovered exactly why "has-a" is more flexible than "is-a".
 	
-	DjkNode(String name){
+	DjkNode(){
 		g = -1;
 		parent = null;
-		nbs = new ArrayList<DjkNode>();
-		this.name = name;
+		orig = null;
 	}
 	
+	DjkNode(Node node){
+		g = -1;
+		parent = null;
+		orig = node;
+	}
 	
-	@Override
-	public String getName()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<? extends Node> getNeighbors()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public boolean geq(Sortable<DjkNode> obj)
-	{
+	//Implemented from Sortable
+	//No operator overloads? This is DISGUSTING.
+	public boolean geq(Sortable<DjkNode> obj){
 		return g >= ((DjkNode)obj).g;
 	}
 
-
-	@Override
-	public boolean leq(Sortable<DjkNode> obj)
-	{
+	public boolean leq(Sortable<DjkNode> obj){
 		return g <= ((DjkNode)obj).g;
 	}
 
