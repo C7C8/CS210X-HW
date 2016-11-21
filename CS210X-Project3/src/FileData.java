@@ -5,10 +5,10 @@ import java.io.PrintStream;
 import java.util.HashMap;
 public class FileData{
 
-	private HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
-	private HashMap<String, IMDBNode> movies = new HashMap<String,IMDBNode>();
+	private static HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
+	private static HashMap<String, IMDBNode> movies = new HashMap<String,IMDBNode>();
 	
-	private void setActorsAndMovies(String[] reader){
+	private static void setActorsAndMovies(String[] reader){
 		String lastActor="";
 		for(String s : reader){
 			if(s.length()>0 && (!(s.substring(0,1).equals(" ")
@@ -32,12 +32,12 @@ public class FileData{
 		}
 	}
 
-	public void populateActorsAndMovies(String file1, String file2) throws IOException{
+	public static void populateActorsAndMovies(String file1, String file2) throws IOException{
 		oneFilePop(file1,"actorsManip.txt");
 		oneFilePop(file2,"actressesManip.txt");
 	}
 	
-	private void oneFilePop(String file1, String s) throws IOException{
+	private static void oneFilePop(String file1, String s) throws IOException{
 		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
