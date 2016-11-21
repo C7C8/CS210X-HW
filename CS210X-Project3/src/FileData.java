@@ -1,72 +1,68 @@
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 public class FileData{
+
+	private HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
+	private HashMap<String, IMDBNode> movies = new HashMap<String,IMDBNode>();
 	
-	public static ArrayList<String> actors = new ArrayList<String>();
-	public static ArrayList<String> movies = new ArrayList<String>();
-	
-	// if we make these ArrayList<LinkedList<Node>> then the first Node will be the actor
-	// and every subsequent Node will be the movies....
-	private static void setActorsAndMovies(String[] reader){
+	private void setActorsAndMovies(String[] reader){
+		String lastActor="";
 		for(String s : reader){
 			if(s.length()>0 && (!(s.substring(0,1).equals(" ")
-							   || s.substring(0,1).equals("\n")))){
-				actors.add(s);
+					|| s.substring(0,1).equals("\n")))){
+				IMDBNode x = new IMDBNode(s);
+				actors.put(s,x);
+				lastActor = s;
 			}
 			else if(s.length()>0 && (s.substring(0,1).equals("\n"))){
-				movies.add(s);
+				if(movies.containsKey(s)){
+					movies.get(s).addNeighbor(actors.get(lastActor));
+					actors.get(lastActor).addNeighbor(movies.get(s));
+				}
+				else{
+					IMDBNode m = new IMDBNode(s);
+					movies.put(s,m);
+					m.addNeighbor(actors.get(lastActor));
+					actors.get(lastActor).addNeighbor(m);
+				}
 			}	
 		}
-	}
-	
-	private static ArrayList<String> getActors(String[] reader){
-		ArrayList<String> actor = new ArrayList<String>();
-		for(String s : reader){
-			if(s.length()>0 && (!(s.substring(0,1).equals(" ")
-							   || s.substring(0,1).equals("\n")))){
-				actor.add(s);
-			}	
-		}
-		return actor;
-	}
-	
-	private static ArrayList<String> getMovies(String[] reader){
-		ArrayList<String> movie = new ArrayList<String>();
-		for(String s : reader){
-			if(s.length()>0 && (s.substring(0,1).equals("\n"))){
-				movie.add(s);
-			}	
-		}
-		
-		return movie;
 	}
 
-	public static void main(String[] args)throws IOException{
-		String file_name = "C:/Users/Carol/Downloads/IMDB/smallTestText";
+	public void populateActorsAndMovies(String file1, String file2) throws IOException{
+		oneFilePop(file1,"actorsManip.txt");
+		oneFilePop(file2,"actressesManip.txt");
+	}
+	
+	private void oneFilePop(String file1, String s) throws IOException{
+		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
-			ReadNonAsciiFile file2= new ReadNonAsciiFile(file_name);
 			String[] readLines = file.OpenFile();
-			PrintStream out = new PrintStream(new FileOutputStream("smallTestText_changed.txt"));
+			PrintStream out = new PrintStream(new FileOutputStream(s));
 			System.setOut(out);
-			for(int i = 0; i<readLines.length;i++){ // watch as 5 vs 6 is a difference of two lines////
+			for(int i = 0; i<readLines.length;i++){
 				if(readLines[i].length()>0){
 					System.out.println(readLines[i]);
 				}
 			}
-			ReadFile newFile = new ReadFile("smallTestText_changed.txt");
+			ReadFile newFile = new ReadFile(s);
 			String[] reader = newFile.OpenFile();
 			setActorsAndMovies(reader);
-			
-			System.out.print(actors.get(actors.size()-1));
-			System.out.print(movies.get(movies.size()-1));
 		}
 		catch (IOException e){
 			System.out.println( e.getMessage());
 		}
 	}
+	public HashMap<String,IMDBNode> getActorHashMap(){
+		return actors;
+	}
+	public HashMap<String,IMDBNode> getMoviesHashMap(){
+		return movies;
+	}
 }
+
+
