@@ -33,11 +33,11 @@ public class FileData{
 	}
 
 	public static void populateActorsAndMovies(String file1, String file2) throws IOException{
-		oneFilePop(file1,"actorsManip.txt");
-		oneFilePop(file2,"actressesManip.txt");
+		oneFilePop(file1);
+		oneFilePop(file2);
 	}
 	
-	private static void oneFilePop(String file1, String s) throws IOException{
+	private static void oneFilePop(String file1) throws IOException{
 		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
