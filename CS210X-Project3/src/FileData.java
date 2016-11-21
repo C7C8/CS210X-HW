@@ -57,10 +57,10 @@ public class FileData{
 			System.out.println( e.getMessage());
 		}
 	}
-	public HashMap<String,IMDBNode> getActorHashMap(){
+	public static HashMap<String,IMDBNode> getActorHashMap(){
 		return actors;
 	}
-	public HashMap<String,IMDBNode> getMoviesHashMap(){
+	public static HashMap<String,IMDBNode> getMoviesHashMap(){
 		return movies;
 	}
 }

@@ -3,10 +3,10 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class IMDBGraph implements Graph {
-	HashMap<String, Node> nodes;
+	HashMap<String, IMDBNode> nodes;
 	
 	IMDBGraph(String actorsFilename, String actressesFilename) throws IOException {
-		//TODO: nodes = IMDBParser.Parse(actorsFilename, actressesFilename);
+		FileData.populateActorsAndMovies(actorsFilename, actressesFilename);
 	}
 	
 	@Override
