@@ -12,7 +12,7 @@
  * 
  * @param <T> Type of object that will be stored. This is stupid.
  */
-class SortedList<T>{
+class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 	Item<T> head;
 	int size;
 	
@@ -21,26 +21,26 @@ class SortedList<T>{
 		size = 0;
 	}
 	
-	Sortable<T> top(){
+	T top(){
 		if (head == null)
 			return null; //Simple enough! Who needs exceptions anyways?
 		
 		return head.data;
 	}
 	
-	Sortable<T> pop(){
+	T pop(){
 		if (head == null)
 			return null;
 		
 		size--;
-		Sortable<T> data = head.data;
+		T data = head.data;
 		head = head.next;
 		if (head != null)
 			head.next = null;
 		return data;
 	}
 	
-	void push(Sortable<T> data){
+	void push(T data){
 		Item<T> item = new Item<T>();
 		item.data = data;
 		size++;
@@ -52,12 +52,10 @@ class SortedList<T>{
 		}
 		
 		for (Item<T> cur = head; cur != null; cur = cur.next){
-			if (item.data.geq(cur.data) && (cur.next == null || cur.next.data.geq(item.data))){
-				//Splice in 'item' AFTER cur
-				item.prev = cur;
+			if (item.data.compareTo(cur.data) > 0 && (cur.next == null || cur.next.data.compareTo(item.data) < 0)){
 				item.next = cur.next;
-				if (cur.next != null)
-					cur.next.prev = item;
+				if (cur.next != null) {
+				}
 				cur.next = item;
 				return;
 			}
@@ -76,14 +74,11 @@ class SortedList<T>{
 	}
 	
 	private static class Item<T>{
-		Sortable<T> data;
+		T data;
 		Item<T> next;
-		Item<T> prev;
-		
 		Item(){
 			data = null;
 			next = null;
-			prev = null;
 		}
 	}
 }
