@@ -1,4 +1,4 @@
-package djksolver;
+
 import java.util.*;
 /**
  * Interface for a node that is part of a social network graph,

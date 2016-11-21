@@ -1,4 +1,4 @@
-package djksolver;
+
 import java.util.Collection;
 import java.util.ArrayList;
 

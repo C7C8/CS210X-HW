@@ -1,4 +1,4 @@
-package djksolver;
+
 
 /**
  * Java port of a much less stupid class I wrote named "SortedStack" in another language.
