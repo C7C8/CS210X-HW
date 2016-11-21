@@ -42,7 +42,7 @@ public class FileData{
 		try{
 			ReadFile file = new ReadFile(file_name);
 			String[] readLines = file.OpenFile();
-			PrintStream out = new PrintStream(new FileOutputStream(s));
+			/*PrintStream out = new PrintStream(new FileOutputStream(s));
 			System.setOut(out);
 			for(int i = 0; i<readLines.length;i++){
 				if(readLines[i].length()>0){
@@ -50,8 +50,8 @@ public class FileData{
 				}
 			}
 			ReadFile newFile = new ReadFile(s);
-			String[] reader = newFile.OpenFile();
-			setActorsAndMovies(reader);
+			String[] reader = newFile.OpenFile();*/
+			setActorsAndMovies(readLines);
 		}
 		catch (IOException e){
 			System.out.println( e.getMessage());
