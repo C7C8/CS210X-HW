@@ -44,7 +44,7 @@ public class GraphSearchGUI extends Application {
 
 		final Graph graph;
 		try {
-			graph = new IMDBGraph();
+			graph = new IMDBActorsGraph("actors.list", "actresses.list");
 			//graph = new CiteSeerGraph();
 		} catch (IOException ioe) {
 			System.out.println("Couldn't load data");
