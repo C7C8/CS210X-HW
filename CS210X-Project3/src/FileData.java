@@ -41,8 +41,8 @@ public class FileData{
 		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
-			/*String[] readLines = file.OpenFile();
-			PrintStream out = new PrintStream(new FileOutputStream(s));
+			String[] readLines = file.OpenFile();
+			/*PrintStream out = new PrintStream(new FileOutputStream(s));
 			System.setOut(out);
 			for(int i = 0; i<readLines.length;i++){
 				if(readLines[i].length()>0){
