@@ -52,7 +52,7 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 		}
 		
 		for (Item<T> cur = head; cur != null; cur = cur.next){
-			if (item.data.compareTo(cur.data) > 0 && (cur.next == null || cur.next.data.compareTo(item.data) < 0)){
+			if (item.data.compareTo(cur.data) >= 0 && (cur.next == null || cur.next.data.compareTo(item.data) >= 0)){
 				item.next = cur.next;
 				if (cur.next != null) {
 				}

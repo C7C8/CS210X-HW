@@ -3,6 +3,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.Iterator;
 public class FileData{
 
 	private static HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
@@ -10,31 +11,38 @@ public class FileData{
 
 	public static void setActorsAndMovies(String[] reader){
 		String lastActor="";
+		String movieStr="";
 		for(String s : reader){
-			if(s.equals("")){
-
+			int cutOff = s.indexOf(":");
+			if(s.length()==0){
+				
 			}
 			else{
-				int cutOff = s.indexOf(":");
-				if(cutOff!=-1){
-					IMDBNode x = new IMDBNode(s.substring(0,cutOff));
-					actors.put(s.substring(0,cutOff),x);
+				if(cutOff>0 && !(actors.containsKey(s.substring(0, cutOff)))){
 					lastActor = s.substring(0,cutOff);
-					String movieStr = s.substring(cutOff+1,s.length());
-					//System.out.println(movieStr);
-					if(movies.containsKey(movieStr)){
-						movies.get(movieStr).addNeighbor(actors.get(lastActor));
-						actors.get(lastActor).addNeighbor(movies.get(movieStr));
-					}
-					else{
-						IMDBNode m = new IMDBNode(movieStr);
-						movies.put(movieStr,m);
-						m.addNeighbor(actors.get(lastActor));
-						actors.get(lastActor).addNeighbor(m);
+					IMDBNode x = new IMDBNode(lastActor);
+					actors.put(lastActor, x);
+				}
+				movieStr = s.substring(cutOff+1);
+				if(!(movies.containsKey(s.substring(cutOff+1)))){
+					IMDBNode m = new IMDBNode(movieStr);
+					movies.put(movieStr,m);
+					m.addNeighbor(actors.get(lastActor));
+					actors.get(lastActor).addNeighbor(m);
+				}
+				else{
+					if(lastActor.length()>0 && !(movies.get(movieStr).getNeighbors().contains(actors.get(lastActor)))){
+					movies.get(movieStr).addNeighbor(actors.get(lastActor));
+					actors.get(lastActor).addNeighbor(movies.get(movieStr));
 					}
 				}
-			}	
+			}
 		}
+		/*System.out.println(movies.size());
+		Iterator Iter = actors.get("Rogan, Seth").getNeighbors().iterator();
+		while(Iter.hasNext()){
+			System.out.println(Iter.next());
+		}*/
 	}
 
 	public static void populateActorsAndMovies(String file1, String file2) throws IOException{
