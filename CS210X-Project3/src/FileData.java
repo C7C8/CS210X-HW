@@ -16,21 +16,22 @@ public class FileData{
 			}
 			else{
 				int cutOff = s.indexOf(":");
-				if(cutOff>-1){
+				if(cutOff!=-1){
 					IMDBNode x = new IMDBNode(s.substring(0,cutOff));
 					actors.put(s.substring(0,cutOff),x);
 					lastActor = s.substring(0,cutOff);
-				}
-				String movieStr = s.substring(cutOff+1);
-				if(movies.containsKey(movieStr)){
-					movies.get(movieStr).addNeighbor(actors.get(lastActor));
-					actors.get(lastActor).addNeighbor(movies.get(movieStr));
-				}
-				else{
-					IMDBNode m = new IMDBNode(s);
-					movies.put(movieStr,m);
-					m.addNeighbor(actors.get(lastActor));
-					actors.get(lastActor).addNeighbor(m);
+					String movieStr = s.substring(cutOff+1,s.length());
+					//System.out.println(movieStr);
+					if(movies.containsKey(movieStr)){
+						movies.get(movieStr).addNeighbor(actors.get(lastActor));
+						actors.get(lastActor).addNeighbor(movies.get(movieStr));
+					}
+					else{
+						IMDBNode m = new IMDBNode(movieStr);
+						movies.put(movieStr,m);
+						m.addNeighbor(actors.get(lastActor));
+						actors.get(lastActor).addNeighbor(m);
+					}
 				}
 			}	
 		}

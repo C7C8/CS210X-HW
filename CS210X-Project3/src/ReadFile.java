@@ -24,6 +24,7 @@ public class ReadFile {
 			String currentLine = textReader.readLine();
 			currentLine = formatStringForIMDB(currentLine);
 			textData[i] = currentLine;
+			//System.out.println(currentLine);
 			if(beforeStop>1){
 				i = numberOfLines;
 			}
@@ -49,39 +50,30 @@ public class ReadFile {
 	}
 
 	public String formatStringForIMDB(String line){
-		if(line.length()>5 && line.substring(0,5).equals("----\t")){
+		if(line.length()>=5 && line.substring(0,5).equals("----\t")){
 			start = true;
 			beforeStop++;
 			return "";
 		}
 		else if(start){
-			
-			final int LENGTH = line.length();
-			if(LENGTH==0){
+			int LENGTH = line.length();
+			if(LENGTH<1){
 				return "";
 			}
-			else if(line.contains("TV") || line.contains("\"")){
+			else if(line.contains("(TV)") || line.contains("\"")){
 				return "";
 			}
-			else if(blankLine(line)){
-				return "";
-			}
-
 			else{
-				String name = "";
-				String movie = "";
 				int index = 0;
-				// get name
-				while(index<LENGTH-1 && !line.substring(index,index+1).equals("\t")){
+				while(!line.substring(index,index+1).equals("\t")){
 					index++;
 				}
-				name = line.substring(0,index);
-				// get movie
-				int movieIndex = index+1;
-				while(index<LENGTH-1 && (!line.substring(index,index+1).equals(")"))){// test for )
-					index++;
+				String name = line.substring(0,index);
+				int movieInd = index;
+				while(!line.substring(movieInd,movieInd+1).equals(")")){
+					movieInd++;
 				}
-				movie = line.substring(movieIndex,index+1);
+				String movie = removeTabs(line.substring(index+1,movieInd+1));
 				return name + ":" + movie;
 			}
 		}
@@ -104,7 +96,7 @@ public class ReadFile {
 	private String removeSpace(String line){
 		return line.replaceAll("\\t+","\n\t").replaceAll(" \n\n", " ");
 	}
-	private String removeSpaces(String line){
-		return line.replaceAll("::\n","");
+	private String removeTabs(String line){
+		return line.replaceAll("\t+","");
 	}
 }

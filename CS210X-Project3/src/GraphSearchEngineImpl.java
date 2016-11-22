@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,9 +18,11 @@ import java.util.List;
 public class GraphSearchEngineImpl implements GraphSearchEngine
 {
 	SortedList<DjkNode> openList;
+	HashMap<String, DjkNode> closedList;
 	
 	public GraphSearchEngineImpl(){
 		openList = new SortedList<DjkNode>();
+		closedList = new HashMap<String, DjkNode>();
 	}
 	
 	
@@ -29,13 +32,19 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		
 		boolean complete = false;
 		while (!complete){
-			if (openList.size() == 0)
+			if (openList.size() == 0){
+				closedList.clear();
+				openList.clear();			
 				return null; //No path exists.
+			}
 			
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
 			
 			for (Node e : node.orig.getNeighbors()){
+				if (closedList.containsKey(e.getName()))
+					continue;
+				
 				if (e == t){
 					//Algorithm complete!
 					end = new DjkNode(e);
@@ -52,6 +61,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 				expNode.g = node.g + 1;
 				openList.push(expNode);
 			}
+			closedList.put(node.orig.getName(), node);
 		}
 		
 		//Back track from t to s
@@ -61,6 +71,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		cList.add(s);
 		
 		openList.clear(); //Clean up! All those unneeded DjkNodes go away now.
+		closedList.clear();
 		return cList;
 	}
 
