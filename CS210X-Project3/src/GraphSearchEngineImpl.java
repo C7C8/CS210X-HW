@@ -29,8 +29,10 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		
 		boolean complete = false;
 		while (!complete){
-			if (openList.size() == 0)
+			if (openList.size() == 0){
+				openList.clear();
 				return null; //No path exists.
+			}
 			
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
