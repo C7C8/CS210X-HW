@@ -37,25 +37,27 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 				openList.clear();			
 				return null; //No path exists.
 			}
-			
+
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
-			
 			for (Node e : node.orig.getNeighbors()){
+
 				if (closedList.containsKey(e.getName()))
-					continue;
-				
-				if (e==t){
+					continue; //Don't visit nodes that have already been visited.
+
+				if (e == t){
 					//Algorithm complete!
 					end = new DjkNode(e);
 					end.parent = node;
 					complete = true;
+					openList.clear();
+					closedList.clear();
 					break;
 				}
-				
+
 				if (e == node)
 					continue; //Skip self
-				
+
 				DjkNode expNode = new DjkNode(e);
 				expNode.parent = node;
 				expNode.g = node.g + 1;
@@ -63,15 +65,14 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			}
 			closedList.put(node.orig.getName(), node);
 		}
-		
+
 		//Back track from t to s
 		List<Node> cList = new ArrayList<Node>();
 		for (DjkNode node = end; node.parent != null; node = node.parent)
 			cList.add(node.orig);
 		cList.add(s);
-		
+
 		openList.clear(); //Clean up! All those unneeded DjkNodes go away now.
-		closedList.clear();
 		return cList;
 	}
 
