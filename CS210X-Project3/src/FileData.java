@@ -7,24 +7,28 @@ public class FileData{
 
 	private static HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
 	private static HashMap<String, IMDBNode> movies = new HashMap<String,IMDBNode>();
-	
+
 	public static void setActorsAndMovies(String[] reader){
 		String lastActor="";
 		for(String s : reader){
-			if(s.length()>0 && (!(s.substring(0,1).equals(" ")
-					|| s.substring(0,1).equals("\n")))){
-				IMDBNode x = new IMDBNode(s);
-				actors.put(s,x);
-				lastActor = s;
+			if(s.equals("")){
+
 			}
-			else if(s.length()>0 && (s.substring(0,1).equals("\n"))){
-				if(movies.containsKey(s)){
-					movies.get(s).addNeighbor(actors.get(lastActor));
-					actors.get(lastActor).addNeighbor(movies.get(s));
+			else{
+				int cutOff = s.indexOf(":");
+				if(cutOff>-1){
+					IMDBNode x = new IMDBNode(s.substring(0,cutOff));
+					actors.put(s.substring(0,cutOff),x);
+					lastActor = s.substring(0,cutOff);
+				}
+				String movieStr = s.substring(cutOff+1);
+				if(movies.containsKey(movieStr)){
+					movies.get(movieStr).addNeighbor(actors.get(lastActor));
+					actors.get(lastActor).addNeighbor(movies.get(movieStr));
 				}
 				else{
 					IMDBNode m = new IMDBNode(s);
-					movies.put(s,m);
+					movies.put(movieStr,m);
 					m.addNeighbor(actors.get(lastActor));
 					actors.get(lastActor).addNeighbor(m);
 				}
@@ -36,12 +40,12 @@ public class FileData{
 		oneFilePop(file1);
 		oneFilePop(file2);
 	}
-	
+
 	private static void oneFilePop(String file1) throws IOException{
 		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
-			String[] readLines = file.OpenFile();
+			file.OpenFile();
 			/*PrintStream out = new PrintStream(new FileOutputStream(s));
 			System.setOut(out);
 			for(int i = 0; i<readLines.length;i++){

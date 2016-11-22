@@ -6,12 +6,15 @@ import java.io.BufferedReader;
 
 public class ReadFile {
 	private String path;
+	private boolean twice = false;
+	private boolean start = false;
+	private int beforeStop = 0;
 
 	public  ReadFile(String file_path){
 		path = file_path;
 	}
 
-	public String[] OpenFile() throws IOException{
+	public void OpenFile() throws IOException{
 		FileReader fr = new FileReader(path);
 		BufferedReader textReader = new BufferedReader(fr);
 		int numberOfLines = readLines();
@@ -21,10 +24,12 @@ public class ReadFile {
 			String currentLine = textReader.readLine();
 			currentLine = formatStringForIMDB(currentLine);
 			textData[i] = currentLine;
+			if(beforeStop>1){
+				i = numberOfLines;
+			}
 		}
 		FileData.setActorsAndMovies(textData);
 		textReader.close();
-		return textData;
 	}
 
 	public int readLines() throws IOException{
@@ -44,34 +49,43 @@ public class ReadFile {
 	}
 
 	public String formatStringForIMDB(String line){
-		final int LENGTH = line.length();
-		if(LENGTH==0){
+		if(line.length()>5 && line.substring(0,5).equals("----\t")){
+			start = true;
+			beforeStop++;
 			return "";
 		}
-		else if(line.contains("TV") || line.contains("\"")){
-			return "";
-		}
-		else if(blankLine(line)){
-			return "";
-		}
+		else if(start){
+			
+			final int LENGTH = line.length();
+			if(LENGTH==0){
+				return "";
+			}
+			else if(line.contains("TV") || line.contains("\"")){
+				return "";
+			}
+			else if(blankLine(line)){
+				return "";
+			}
 
-		else{
-			String name = "";
-			String movie = "";
-			int index = 0;
-			// get name
-			while(index<LENGTH-1 && !line.substring(index,index+1).equals("\t")){
-				index++;
+			else{
+				String name = "";
+				String movie = "";
+				int index = 0;
+				// get name
+				while(index<LENGTH-1 && !line.substring(index,index+1).equals("\t")){
+					index++;
+				}
+				name = line.substring(0,index);
+				// get movie
+				int movieIndex = index+1;
+				while(index<LENGTH-1 && (!line.substring(index,index+1).equals(")"))){// test for )
+					index++;
+				}
+				movie = line.substring(movieIndex,index+1);
+				return name + ":" + movie;
 			}
-			name = line.substring(0,index);
-			// get movie
-			int movieIndex = index+1;
-			while(index<LENGTH-1 && (!line.substring(index,index+1).equals(")"))){// test for )
-				index++;
-			}
-			movie = line.substring(movieIndex,index+1).replaceAll("\t", "");
-			return name + "\n\t" + movie;
 		}
+		return "";
 	}
 
 	private boolean blankLine(String line) {
