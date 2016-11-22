@@ -8,7 +8,7 @@ public class FileData{
 	private static HashMap<String,IMDBNode> actors = new HashMap<String,IMDBNode>();
 	private static HashMap<String, IMDBNode> movies = new HashMap<String,IMDBNode>();
 	
-	private static void setActorsAndMovies(String[] reader){
+	public static void setActorsAndMovies(String[] reader){
 		String lastActor="";
 		for(String s : reader){
 			if(s.length()>0 && (!(s.substring(0,1).equals(" ")
@@ -41,8 +41,8 @@ public class FileData{
 		String file_name = file1;
 		try{
 			ReadFile file = new ReadFile(file_name);
-			String[] readLines = file.OpenFile();
-			/*PrintStream out = new PrintStream(new FileOutputStream(s));
+			/*String[] readLines = file.OpenFile();
+			PrintStream out = new PrintStream(new FileOutputStream(s));
 			System.setOut(out);
 			for(int i = 0; i<readLines.length;i++){
 				if(readLines[i].length()>0){
@@ -50,8 +50,9 @@ public class FileData{
 				}
 			}
 			ReadFile newFile = new ReadFile(s);
-			String[] reader = newFile.OpenFile();*/
-			setActorsAndMovies(readLines);
+			String[] reader = newFile.OpenFile();
+			file = new ReadFile(file);
+			setActorsAndMovies(readLines);*/
 		}
 		catch (IOException e){
 			System.out.println( e.getMessage());

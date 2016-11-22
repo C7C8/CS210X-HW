@@ -22,6 +22,7 @@ public class ReadFile {
 			currentLine = formatStringForIMDB(currentLine);
 			textData[i] = currentLine;
 		}
+		FileData.setActorsAndMovies(textData);
 		textReader.close();
 		return textData;
 	}
