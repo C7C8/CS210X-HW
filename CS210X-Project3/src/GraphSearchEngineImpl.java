@@ -30,6 +30,8 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		openList.push(new DjkNode(s));
 		DjkNode end = null;
 		
+
+		System.out.println("Starting search!");
 		boolean complete = false;
 		while (!complete){
 			if (openList.size() == 0){
@@ -37,11 +39,17 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 				openList.clear();			
 				return null; //No path exists.
 			}
-
+			int iterations = 0;
+			iterations++;
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
 			for (Node e : node.orig.getNeighbors()){
-
+				
+				iterations++;
+				if (iterations % 1000 == 0){
+					System.out.printf("Iteration %d\n", iterations);
+				}
+				
 				if (closedList.containsKey(e.getName()))
 					continue; //Don't visit nodes that have already been visited.
 
