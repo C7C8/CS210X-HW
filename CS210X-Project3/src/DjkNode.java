@@ -3,12 +3,6 @@ public class DjkNode implements Comparable<DjkNode>{
 	Integer g;
 	Node orig; //Today I have discovered exactly why "has-a" is more flexible than "is-a".
 	
-	DjkNode(){
-		g = -1;
-		parent = null;
-		orig = null;
-	}
-	
 	DjkNode(Node node){
 		g = -1;
 		parent = null;

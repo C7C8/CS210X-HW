@@ -8,7 +8,7 @@ public class IMDBGraph implements Graph {
 	
 	IMDBGraph(String actorsFilename, String actressesFilename) throws IOException {
 		if (!IMDBParser.populated()){
-			IMDBParser.parse(actorsFilename);
+			//IMDBParser.parse(actorsFilename);
 			IMDBParser.parse(actressesFilename);
 		}
 	}

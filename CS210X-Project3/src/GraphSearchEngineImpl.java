@@ -41,31 +41,30 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
 			
-			System.out.printf("Processing node '%s'...\n", node.orig.getName());
-			System.out.printf("Neighbors: %d\n", node.orig.getNeighbors().size());
-			
-			for (Node e : node.orig.getNeighbors()){
-
-				if (closedList.containsKey(e.getName()))
-					continue; //Don't visit nodes that have already been visited.
-				
-				if (e == t){
-					//Algorithm complete!
-					end = new DjkNode(e);
-					end.parent = node;
-					complete = true;
-					openList.clear();
-					closedList.clear();
-					break;
+			if (node != null){
+				for (Node e : node.orig.getNeighbors()){
+	
+					if (closedList.containsKey(e.getName()))
+						continue; //Don't visit nodes that have already been visited.
+					
+					if (e == t){
+						//Algorithm complete!
+						end = new DjkNode(e);
+						end.parent = node;
+						complete = true;
+						openList.clear();
+						closedList.clear();
+						break;
+					}
+					
+					if (e == node)
+						continue; //Skip self
+					
+					DjkNode expNode = new DjkNode(e);
+					expNode.parent = node;
+					expNode.g = node.g + 1;
+					openList.push(expNode);
 				}
-				
-				if (e == node)
-					continue; //Skip self
-				
-				DjkNode expNode = new DjkNode(e);
-				expNode.parent = node;
-				expNode.g = node.g + 1;
-				openList.push(expNode);
 			}
 			closedList.put(node.orig.getName(), node);
 		}

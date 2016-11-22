@@ -22,8 +22,10 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 	}
 	
 	public T top(){
-		if (head == null)
+		if (head == null){
+			System.out.println("SortedList returning null!");
 			return null; //Simple enough! Who needs exceptions anyways?
+		}
 		
 		return head.data;
 	}
@@ -35,8 +37,6 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 		size--;
 		T data = head.data;
 		head = head.next;
-		if (head != null)
-			head.next = null;
 		return data;
 	}
 	
