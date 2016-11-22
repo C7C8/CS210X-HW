@@ -1,4 +1,4 @@
-
+import org.w3c.dom.Node;
 
 /**
  * Java port of a much less stupid class I wrote named "SortedStack" in another language.
@@ -16,19 +16,19 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 	Item<T> head;
 	int size;
 	
-	SortedList(){
+	public SortedList(){
 		head = null;
 		size = 0;
 	}
 	
-	T top(){
+	public T top(){
 		if (head == null)
 			return null; //Simple enough! Who needs exceptions anyways?
 		
 		return head.data;
 	}
 	
-	T pop(){
+	public T pop(){
 		if (head == null)
 			return null;
 		
@@ -40,7 +40,7 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 		return data;
 	}
 	
-	void push(T data){
+	public void push(T data){
 		Item<T> item = new Item<T>();
 		item.data = data;
 		size++;
@@ -51,25 +51,28 @@ class SortedList<T extends Comparable<T>>{ //Holy s**t this actually works
 			return;
 		}
 		
+		//Splice in at head
+		if (head != null && item.data.compareTo(head.data) < 0){
+			item.next = head;
+			head = item;
+			return;
+		}
+		
 		for (Item<T> cur = head; cur != null; cur = cur.next){
 			if (item.data.compareTo(cur.data) >= 0 && (cur.next == null || cur.next.data.compareTo(item.data) >= 0)){
 				item.next = cur.next;
-				if (cur.next != null) {
-				}
 				cur.next = item;
 				return;
 			}
 		}
-		
-		//GAH! THIS WAS SO CLEAN IN A LANGUAGE WITH OPERATOR OVERLOADS!
 	}
 	
-	void clear(){
+	public void clear(){
 		head = null;
 		size = 0;
 	}
 	
-	int size(){
+	public int size(){
 		return this.size;
 	}
 	

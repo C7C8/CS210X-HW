@@ -40,6 +40,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			
 			//Get the lowest g-value node
 			DjkNode node = (DjkNode) openList.pop();
+			
 			for (Node e : node.orig.getNeighbors()){
 				if (closedList.containsKey(e.getName()))
 					continue;
@@ -52,7 +53,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 					break;
 				}
 				
-				if (e==node)
+				if (e == node)
 					continue; //Skip self
 				
 				DjkNode expNode = new DjkNode(e);
