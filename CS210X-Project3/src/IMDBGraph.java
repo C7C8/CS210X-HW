@@ -7,7 +7,10 @@ public class IMDBGraph implements Graph {
 	HashMap<String, IMDBNode> nodes;
 	
 	IMDBGraph(String actorsFilename, String actressesFilename) throws IOException {
-		FileData.populateActorsAndMovies(actorsFilename, actressesFilename);
+		if (!IMDBParser.populated()){
+			IMDBParser.parse(actorsFilename);
+			IMDBParser.parse(actressesFilename);
+		}
 	}
 	
 	@Override
