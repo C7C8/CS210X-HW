@@ -85,7 +85,7 @@ public class IMDBParser {
 			}
 		}
 		
-		System.out.printf("Got %d actors/actresses and %d movies!\n", actors.size(), movies.size());
+		System.out.printf("Got %d total actors/actresses and %d total movies!\n", actors.size(), movies.size());
 		fscan.close();
 	}
 	

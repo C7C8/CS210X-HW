@@ -3,76 +3,66 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Original implementation of Dijstra's algorithm. Adapted from "Pathviz-2",
- * a pathfinding algorithm visualizer. https://github.com/Sourec/pathviz-2
- * Don't worry, Pathviz-2 was written by one of the authors of this program -
- * no stealing of code from the outside occurred.
- * 
- * I am intensely suspicious of this algorithm. It seems much too simple
- * to be correct.
- * 
- * @author sourec
- *
- */
 public class GraphSearchEngineImpl implements GraphSearchEngine
 {
-	SortedList<DjkNode> openList;
+	ArrayList<DjkNode> openList;
 	HashMap<String, DjkNode> closedList;
 	
 	public GraphSearchEngineImpl(){
-		openList = new SortedList<DjkNode>();
+		openList = new ArrayList<DjkNode>();
 		closedList = new HashMap<String, DjkNode>();
 	}
-	
-	
+
+
 	public List<Node> findShortestPath(Node s, Node t){
-		openList.push(new DjkNode(s));
+		openList.add(new DjkNode(s));
 		DjkNode end = null;
-		
+
 
 		System.out.println("Starting search!");
 		boolean complete = false;
-		while (!complete){
-			if (openList.size() == 0){
-				closedList.clear();
-				openList.clear();			
-				return null; //No path exists.
-			}
-			int iterations = 0;
-			iterations++;
-			//Get the lowest g-value node
-			DjkNode node = (DjkNode) openList.pop();
-			for (Node e : node.orig.getNeighbors()){
-				
-				iterations++;
-				if (iterations % 1000 == 0){
-					System.out.printf("Iteration %d\n", iterations);
-				}
-				
-				if (closedList.containsKey(e.getName()))
-					continue; //Don't visit nodes that have already been visited.
 
-				if (e == t){
-					//Algorithm complete!
-					end = new DjkNode(e);
-					end.parent = node;
-					complete = true;
-					openList.clear();
-					closedList.clear();
+		while (!complete && !openList.isEmpty()){
+			ArrayList<DjkNode> nextOpenList = new ArrayList<DjkNode>();
+
+			//Loop through all of the open list
+			for (DjkNode node : openList){
+
+				//Explore the neighbors...
+				for (Node e : node.orig.getNeighbors()){
+					if (e == t){
+						end.parent = node; //Algorithm complete!
+						complete = true;
+						break;
+					}
+
+					if (closedList.containsKey(e.getName()))
+						continue; //Skip nodes that were already explored
+
+					DjkNode expNode = new DjkNode(e);
+					expNode.parent = node;
+					nextOpenList.add(expNode);
+				}
+
+				if (complete)
 					break;
-				}
 
-				if (e == node)
-					continue; //Skip self
-
-				DjkNode expNode = new DjkNode(e);
-				expNode.parent = node;
-				expNode.g = node.g + 1;
-				openList.push(expNode);
+				closedList.put(node.orig.getName(), node);
 			}
-			closedList.put(node.orig.getName(), node);
+
+			//By now the open list should be empty - swap to the "next" open list.
+			//Thanks to java's bizarre way of handling objects, this is extremely
+			//fast
+			ArrayList<DjkNode> temp = openList;
+			openList = nextOpenList;
+			nextOpenList = temp;
 		}
+
+		if (!complete){
+			return null; //No path
+		}
+
+
 
 		//Back track from t to s
 		List<Node> cList = new ArrayList<Node>();
