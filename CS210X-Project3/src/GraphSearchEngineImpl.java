@@ -16,7 +16,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 
 	public List<Node> findShortestPath(Node s, Node t){
 		openList.add(new DjkNode(s));
-		DjkNode end = null;
+		DjkNode end = new DjkNode(t);
 
 
 		System.out.println("Starting search!");
@@ -71,6 +71,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		cList.add(s);
 
 		openList.clear(); //Clean up! All those unneeded DjkNodes go away now.
+		closedList.clear();
 		return cList;
 	}
 
