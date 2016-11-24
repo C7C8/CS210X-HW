@@ -58,11 +58,11 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			nextOpenList = temp;
 		}
 
-		if (!complete){
+		openList.clear();
+		closedList.clear();
+
+		if (!complete)
 			return null; //No path
-		}
-
-
 
 		//Back track from t to s
 		List<Node> cList = new ArrayList<Node>();
@@ -70,8 +70,6 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			cList.add(node.orig);
 		cList.add(s);
 
-		openList.clear(); //Clean up! All those unneeded DjkNodes go away now.
-		closedList.clear();
 		return cList;
 	}
 
