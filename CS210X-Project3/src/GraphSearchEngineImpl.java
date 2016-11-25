@@ -5,28 +5,28 @@ import java.util.List;
 
 public class GraphSearchEngineImpl implements GraphSearchEngine
 {
-	ArrayList<DjkNode> openList;
-	HashMap<String, DjkNode> closedList;
+	HashMap<String, DjkNode> openList;
 	
 	public GraphSearchEngineImpl(){
-		openList = new ArrayList<DjkNode>();
-		closedList = new HashMap<String, DjkNode>();
+		openList = new HashMap<String, DjkNode>();
 	}
 
 
 	public List<Node> findShortestPath(Node s, Node t){
-		openList.add(new DjkNode(s));
+		openList.put(s.getName(), new DjkNode(s));
 		DjkNode end = new DjkNode(t);
 
 
 		System.out.println("Starting search!");
 		boolean complete = false;
 
+
+		HashMap<String, DjkNode> nextOpenList = new HashMap<String, DjkNode>();
 		while (!complete && !openList.isEmpty()){
-			ArrayList<DjkNode> nextOpenList = new ArrayList<DjkNode>();
 
 			//Loop through all of the open list
-			for (DjkNode node : openList){
+			for (String key : openList.keySet()){
+				DjkNode node = openList.get(key);
 
 				//Explore the neighbors...
 				for (Node e : node.orig.getNeighbors()){
@@ -36,30 +36,23 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 						break;
 					}
 
-					if (closedList.containsKey(e.getName()))
-						continue; //Skip nodes that were already explored
+					if (openList.containsKey(e.getName()) || (node.parent != null && node.parent.orig == e))
+						continue; //Skip nodes that were already explored or that are about to be explored.
 
 					DjkNode expNode = new DjkNode(e);
 					expNode.parent = node;
-					nextOpenList.add(expNode);
+					nextOpenList.put(e.getName(), expNode);
 				}
 
 				if (complete)
 					break;
-
-				closedList.put(node.orig.getName(), node);
 			}
 
-			//By now the open list should be empty - swap to the "next" open list.
-			//Thanks to java's bizarre way of handling objects, this is extremely
-			//fast
-			ArrayList<DjkNode> temp = openList;
+			openList.clear();
+			HashMap<String, DjkNode> temp = openList;
 			openList = nextOpenList;
 			nextOpenList = temp;
 		}
-
-		openList.clear();
-		closedList.clear();
 
 		if (!complete)
 			return null; //No path
