@@ -11,15 +11,12 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		openList = new HashMap<String, DjkNode>();
 	}
 
-
 	public List<Node> findShortestPath(Node s, Node t){
 		openList.put(s.getName(), new DjkNode(s));
 		DjkNode end = new DjkNode(t);
 
-
 		System.out.println("Starting search!");
 		boolean complete = false;
-
 
 		HashMap<String, DjkNode> nextOpenList = new HashMap<String, DjkNode>();
 		while (!complete && !openList.isEmpty()){
@@ -53,7 +50,9 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 			openList = nextOpenList;
 			nextOpenList = temp;
 		}
-
+		
+		openList.clear();
+		
 		if (!complete)
 			return null; //No path
 
@@ -68,7 +67,6 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 
 	private static class DjkNode {
 		DjkNode parent;
-		Integer g;
 		Node orig; //Today I have discovered exactly why "has-a" is more flexible than "is-a".
 
 		DjkNode(Node node){
