@@ -66,4 +66,14 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 		return cList;
 	}
 
+	private static class DjkNode {
+		DjkNode parent;
+		Integer g;
+		Node orig; //Today I have discovered exactly why "has-a" is more flexible than "is-a".
+
+		DjkNode(Node node){
+			parent = null;
+			orig = node;
+		}
+	}
 }
