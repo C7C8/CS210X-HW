@@ -16,8 +16,8 @@ public class ExperimentRunner {
 			throw new InvalidParameterException();
 		}
 
-		final int TRIALS = 100;	//How many trials to run
-		final int MAX_N = 1000;	//The maximum size of a collection
+		final int TRIALS = 10000;	//How many trials to run
+		final int MAX_N = 10000;	//The maximum size of a collection
 		final int teamID = Integer.parseInt(args[0]); // TODO CHANGE THIS TO THE TEAM ID YOU USE TO SUBMIT YOUR PROJECT3 ON INSTRUCT-ASSIST.
 		final int algoID = Integer.parseInt(args[1]);
 		MODES mode = MODES.ADD;
@@ -46,13 +46,15 @@ public class ExperimentRunner {
 		
 		Random rand = new Random(0);
 		long[] times = new long[MAX_N];
-		if (mode == MODES.REMOVE){
-			//Populate collection with random values
-			for (int n = 0; n < MAX_N; n++)
-				dataStructure.add(rand.nextInt());
-		}
+		
 		
 		for (int trial = 0; trial < TRIALS; trial++){
+			if (mode == MODES.REMOVE){
+				//Populate collection with random values
+				for (int n = 0; n < MAX_N; n++)
+					dataStructure.add(rand.nextInt());
+			}
+			
 			for (int n = 0; n < MAX_N; n++){
 				final long startTime = CPUClock.getNumTicks();
 				
@@ -64,6 +66,7 @@ public class ExperimentRunner {
 				
 				times[n] += CPUClock.getNumTicks() - startTime;
 			}
+			dataStructure.clear();
 		}
 		
 		//Now print averages
