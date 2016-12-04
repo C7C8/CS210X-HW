@@ -1,3 +1,4 @@
+import java.security.InvalidParameterException;
 import java.util.*;
 import com.cs210x.*;
 
@@ -5,48 +6,29 @@ import com.cs210x.*;
   * Class to deduce the identity of mystery data structures.
   */
 public class ExperimentRunner {
-	private static final int NUM_DATA_STRUCTURES_TO_DEDUCE = 5;
-
+	enum MODES {ADD, REMOVE, SEARCH};
+	final int TRIALS = 10000;
+	final int MAXN = 10000;
+	
 	public static void main (String[] args) {
-		if (args.length != 2){
-			System.out.println("Error! Not enough arguments!");
-			System.out.println("Usage: java ExperimentRunner [teamID] [algorithmID]");
+		if (args.length != 3){
+			System.out.println("Not enough arguments!");
+			System.out.println("Usage: java ExperimentRunner [teamID] [algorithmID] [testID]");
+			System.out.println("Test ID options are \"add\", \"remove\", and \"search\"");
+			throw new InvalidParameterException();
 		}
 		
 		final int teamID = Integer.parseInt(args[0]); // TODO CHANGE THIS TO THE TEAM ID YOU USE TO SUBMIT YOUR PROJECT3 ON INSTRUCT-ASSIST.
 		final int algoID = Integer.parseInt(args[1]);
+		@SuppressWarnings("unchecked") Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
+		for (int i = 0; i < algoID; i++){
+			//This should allow us to cycle through to the correct algorithm to test.
+			dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
+		}
+		CPUClock clock = new CPUClock();
+		Random rand = new Random(0);
 		
-		// Fetch the collections whose type you must deduce.
-		// Note -- you are free to change the type parameter from Integer to whatever you want. In this
-		// case, make sure to replace (over the next 4 lines of code) Integer with whatever class you prefer.
-		// In addition, you'll need to pass the method getMysteryDataStructure a "sample" (an instance) of 
-		// the class you want the collection to store.
-		@SuppressWarnings("unchecked")
-		final Collection210X<Integer>[] mysteryDataStructures = (Collection210X<Integer>[]) new Collection210X[NUM_DATA_STRUCTURES_TO_DEDUCE];
-		for (int i = 0; i < NUM_DATA_STRUCTURES_TO_DEDUCE; i++) {
-			mysteryDataStructures[i] = MysteryDataStructure.getMysteryDataStructure(teamID, i, new Integer(0));
-		}
-
-		// Write your code here...
-		final Random random = new Random();  // instantiate a random number generator
-		final int N = 100;
-		for (int i = 0; i < N; i++) {  // populate the mystery data structure with 100 numbers
-			mysteryDataStructures[0].add(new Integer(i));
-		}
-		final int elementToFind = random.nextInt(N);
-
-		// This is an example of measuring an operation's time cost *without* averaging -- the times will vary wildly!		
-		// You really should average...
-		final long start = CPUClock.getNumTicks();
-		// Time how long it takes to find a single, randomly chosen item stored in the mystery data structure
-		final boolean result = mysteryDataStructures[0].contains(elementToFind);
-		final long end = CPUClock.getNumTicks();
-		final long elapsed = end - start;
-
-		// Write a table of numbers (for different N -- here, we are just showing one value for simplicity) showing
-		// the relationship between N and the time-cost associated with searching (with the contains method) through
-		// a collection of N data.
-		System.out.println("N\tT (contains(o))");
-		System.out.println(N + "\t" + elapsed);
+		
+		
 	}
 }
