@@ -33,7 +33,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine
 						break;
 					}
 
-					if (openList.containsKey(e.getName()) || (node.parent != null && node.parent.orig == e))
+					if (openList.containsKey(e.getName()) || nextOpenList.containsKey(e.getName()) || (node.parent != null && node.parent.orig == e))
 						continue; //Skip nodes that were already explored or that are about to be explored.
 
 					DjkNode expNode = new DjkNode(e);
