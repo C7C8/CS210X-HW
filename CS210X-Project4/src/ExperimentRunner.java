@@ -7,8 +7,6 @@ import com.cs210x.*;
   */
 public class ExperimentRunner {
 	enum MODES {ADD, REMOVE, SEARCH};
-	final int TRIALS = 10000;
-	final int MAXN = 10000;
 	
 	public static void main (String[] args) {
 		if (args.length != 3){
@@ -17,18 +15,60 @@ public class ExperimentRunner {
 			System.out.println("Test ID options are \"add\", \"remove\", and \"search\"");
 			throw new InvalidParameterException();
 		}
-		
+
+		final int TRIALS = 100;	//How many trials to run
+		final int MAX_N = 1000;	//The maximum size of a collection
 		final int teamID = Integer.parseInt(args[0]); // TODO CHANGE THIS TO THE TEAM ID YOU USE TO SUBMIT YOUR PROJECT3 ON INSTRUCT-ASSIST.
 		final int algoID = Integer.parseInt(args[1]);
-		@SuppressWarnings("unchecked") Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
+		MODES mode = MODES.ADD;
+		switch (args[2]){
+		case "add":
+			mode = MODES.ADD;
+			break;
+		case "remove":
+			mode = MODES.REMOVE;
+			break;
+		case "search":
+			mode = MODES.SEARCH;
+			break;
+		default:
+			System.out.println("Bad mode specified, switching to ADD");
+			mode = MODES.ADD;
+		}
+		
+		
+		@SuppressWarnings("unchecked") 
+		Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
 		for (int i = 0; i < algoID; i++){
 			//This should allow us to cycle through to the correct algorithm to test.
 			dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
 		}
-		CPUClock clock = new CPUClock();
+		
 		Random rand = new Random(0);
+		long[] times = new long[MAX_N];
+		if (mode == MODES.REMOVE){
+			//Populate collection with random values
+			for (int n = 0; n < MAX_N; n++)
+				dataStructure.add(rand.nextInt());
+		}
 		
+		for (int trial = 0; trial < TRIALS; trial++){
+			for (int n = 0; n < MAX_N; n++){
+				final long startTime = CPUClock.getNumTicks();
+				
+				if (mode == MODES.ADD)
+					dataStructure.add(rand.nextInt());
+				else if (mode == MODES.REMOVE)
+					dataStructure.remove(rand.nextInt() % dataStructure.size());
+				//No search, because we don't need searches... right?
+				
+				times[n] += CPUClock.getNumTicks() - startTime;
+			}
+		}
 		
-		
+		//Now print averages
+		for (int n = 0; n < MAX_N; n++)
+			System.out.printf("%d, %d\n", n, times[n] / TRIALS);
+			
 	}
 }
