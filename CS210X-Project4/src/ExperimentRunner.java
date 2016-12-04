@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.util.*;
 import com.cs210x.*;
@@ -8,7 +11,7 @@ import com.cs210x.*;
 public class ExperimentRunner {
 	enum MODES {ADD, REMOVE, SEARCH};
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		if (args.length != 3){
 			System.out.println("Not enough arguments!");
 			System.out.println("Usage: java ExperimentRunner [teamID] [algorithmID] [testID]");
@@ -16,20 +19,18 @@ public class ExperimentRunner {
 			throw new InvalidParameterException();
 		}
 
-		final int TRIALS = 10000;	//How many trials to run
+		final int TRIALS = 10;	//How many trials to run
 		final int MAX_N = 10000;	//The maximum size of a collection
 		final int teamID = Integer.parseInt(args[0]); // TODO CHANGE THIS TO THE TEAM ID YOU USE TO SUBMIT YOUR PROJECT3 ON INSTRUCT-ASSIST.
 		final int algoID = Integer.parseInt(args[1]);
 		MODES mode = MODES.ADD;
+	
 		switch (args[2]){
 		case "add":
 			mode = MODES.ADD;
 			break;
 		case "remove":
 			mode = MODES.REMOVE;
-			break;
-		case "search":
-			mode = MODES.SEARCH;
 			break;
 		default:
 			System.out.println("Bad mode specified, switching to ADD");
@@ -70,8 +71,10 @@ public class ExperimentRunner {
 		}
 		
 		//Now print averages
+		PrintWriter writer = new PrintWriter("1-REMOVE.csv", "UTF-8");
 		for (int n = 0; n < MAX_N; n++)
-			System.out.printf("%d, %d\n", n, times[n] / TRIALS);
+			writer.printf("%d, %d\n", n, times[n] / TRIALS);
+		writer.close();
 			
 	}
 }
