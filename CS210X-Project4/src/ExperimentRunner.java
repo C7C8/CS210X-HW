@@ -12,21 +12,25 @@ public class ExperimentRunner {
 	
 	public static void main (String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		final int teamID = 1036;
-		final int TRIALS = 10000;	//How many trials to run
+		final int TRIALS = 1000;	//How many trials to run
 		final int MAX_N = 1000;		//The maximum size of a collection
 		
 		final int ADD = 0;
 		final int REMOVE = 1;
 
 		for (int algoID = 0; algoID < 5; algoID++){
+			@SuppressWarnings("unchecked") 
+			Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
+			//The eclipse debugger is extremely good at figuring these out!
+			//0 - Binary Tree
+			//1 - Heap
+			//2 - Linked List
+			//3 - Hash table
+			//4 - Linked List
+			
 			for (int mode = ADD; mode <= REMOVE; mode++){
-
-				@SuppressWarnings("unchecked") 
-				Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
-
 				Random rand = new Random(0);
 				long[] times = new long[MAX_N];
-
 
 				for (int trial = 0; trial < TRIALS; trial++){
 					if (mode == REMOVE){
@@ -41,7 +45,7 @@ public class ExperimentRunner {
 						if (mode == ADD)
 							dataStructure.add(rand.nextInt());
 						else if (mode == REMOVE)
-							dataStructure.remove(rand.nextInt() % dataStructure.size());
+							dataStructure.remove(dataStructure.size() / 2); //Remove LAST element
 						
 						times[n] += CPUClock.getNumTicks() - startTime;
 					}
