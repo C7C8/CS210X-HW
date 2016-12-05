@@ -19,9 +19,9 @@ public class ExperimentRunner {
 			throw new InvalidParameterException();
 		}
 
-		final int TRIALS = 10;	//How many trials to run
-		final int MAX_N = 10000;	//The maximum size of a collection
-		final int teamID = Integer.parseInt(args[0]); // TODO CHANGE THIS TO THE TEAM ID YOU USE TO SUBMIT YOUR PROJECT3 ON INSTRUCT-ASSIST.
+		final int TRIALS = 1000;	//How many trials to run
+		final int MAX_N = 1000;	//The maximum size of a collection
+		final int teamID = Integer.parseInt(args[0]); 
 		final int algoID = Integer.parseInt(args[1]);
 		MODES mode = MODES.ADD;
 	
@@ -67,10 +67,11 @@ public class ExperimentRunner {
 		}
 		
 		//Now print averages
-		PrintWriter writer = new PrintWriter("0-ADD.csv", "UTF-8");
+		PrintWriter writer = new PrintWriter(String.format("%d-%s.csv", algoID, args[2]), "UTF-8");
 		for (int n = 0; n < MAX_N; n++)
 			writer.printf("%d, %d\n", n, times[n] / TRIALS);
 		writer.close();
+		System.out.printf("Finished writing '%s'!\n", String.format("%d-%s.csv", algoID, args[2]));
 			
 	}
 }
