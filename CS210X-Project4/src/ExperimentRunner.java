@@ -40,10 +40,6 @@ public class ExperimentRunner {
 		
 		@SuppressWarnings("unchecked") 
 		Collection210X<Integer> dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
-		for (int i = 0; i < algoID; i++){
-			//This should allow us to cycle through to the correct algorithm to test.
-			dataStructure = MysteryDataStructure.getMysteryDataStructure(teamID, algoID, new Integer(0));
-		}
 		
 		Random rand = new Random(0);
 		long[] times = new long[MAX_N];
@@ -71,7 +67,7 @@ public class ExperimentRunner {
 		}
 		
 		//Now print averages
-		PrintWriter writer = new PrintWriter("1-REMOVE.csv", "UTF-8");
+		PrintWriter writer = new PrintWriter("0-ADD.csv", "UTF-8");
 		for (int n = 0; n < MAX_N; n++)
 			writer.printf("%d, %d\n", n, times[n] / TRIALS);
 		writer.close();
