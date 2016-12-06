@@ -48,14 +48,14 @@ public class ExperimentRunner {
 							dataStructure.add(rand.nextInt());
 						else if (mode.equals(Mode.REMOVE))
 							dataStructure.remove(rand.nextInt() % dataStructure.size()); //Remove random element
-						else if (mode.equals(Mode.REMOVE)){
+						else if (mode.equals(Mode.SEARCH)){
 							//This needs special handling because of the "remove" call
 							dataStructure.contains(rand.nextInt(MAX_N));
-							times[n] += CPUClock.getNumTicks() - startTime;
+							times[dataStructure.size() - 1] += CPUClock.getNumTicks() - startTime;
 							dataStructure.remove(rand.nextInt() % dataStructure.size());
 							continue;
 						}
-						times[n] += CPUClock.getNumTicks() - startTime;
+						times[mode.equals(Mode.ADD) ? n : dataStructure.size() - 1] += CPUClock.getNumTicks() - startTime;
 					}
 					dataStructure.clear();
 				}
