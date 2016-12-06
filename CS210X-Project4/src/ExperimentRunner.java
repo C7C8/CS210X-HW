@@ -14,7 +14,7 @@ public class ExperimentRunner {
 	//throw any exceptions, I don't know.
 	public static void main (String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		final int teamID = 1036;
-		final int TRIALS = 5000;	//How many trials to run
+		final int TRIALS = 2500;	//How many trials to run
 		final int MAX_N = 1000;		//The maximum size of a collection
 
 		for (int algoID = 0; algoID < 5; algoID++){ //Run tests for all 5 data structures
@@ -47,15 +47,15 @@ public class ExperimentRunner {
 						if (mode.equals(Mode.ADD))
 							dataStructure.add(rand.nextInt());
 						else if (mode.equals(Mode.REMOVE))
-							dataStructure.remove(rand.nextInt() % dataStructure.size()); //Remove random element
+							dataStructure.remove(0); //Remove random element
 						else if (mode.equals(Mode.SEARCH)){
 							//This needs special handling because of the "remove" call
 							dataStructure.contains(rand.nextInt(MAX_N));
-							times[dataStructure.size() - 1] += CPUClock.getNumTicks() - startTime;
+							times[n] += CPUClock.getNumTicks() - startTime;
 							dataStructure.remove(rand.nextInt() % dataStructure.size());
 							continue;
 						}
-						times[mode.equals(Mode.ADD) ? n : dataStructure.size() - 1] += CPUClock.getNumTicks() - startTime;
+						times[n] += CPUClock.getNumTicks() - startTime;
 					}
 					dataStructure.clear();
 				}
