@@ -83,6 +83,11 @@ public class GameImpl extends Pane implements Game {
 				getChildren().remove(startLabel);
 				run();
 		});
+		
+		//Event handler for moving the paddle
+		setOnMouseMoved(e -> {
+			paddle.moveTo(e.getX(), paddle.getY());
+		});
 	}
 
 	/**
