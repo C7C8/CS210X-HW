@@ -1,6 +1,7 @@
 import java.awt.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Class that implements a ball with a position and velocity.
@@ -54,7 +55,31 @@ public class Ball {
 	 * based on the specified elapsed time since the last update.
 	 * @param deltaNanoTime the number of nanoseconds that have transpired since the last update
 	 */
-	public void updatePosition (long deltaNanoTime) {
+	public void updatePosition (long deltaNanoTime, Paddle paddle) {
+		//rect1 = paddle
+		//rect2 = ball
+		if (paddle.getX() - Paddle.PADDLE_WIDTH/2 < x + BALL_RADIUS &&
+			paddle.getX() + Paddle.PADDLE_WIDTH/2 > x - BALL_RADIUS &&
+			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&
+			paddle.getY() + Paddle.PADDLE_HEIGHT/2 > y - BALL_RADIUS) {
+			
+			//Who doesn't like stack exchange?
+			//http://gamedev.stackexchange.com/questions/4253/in-pong-how-do-you-calculate-the-balls-direction-when-it-bounces-off-the-paddl
+			
+			vy *= -1;
+			
+		}
+
+		if (x > GameImpl.WIDTH || x < 0){
+			vx *= -1;
+			x += x < 0 ? 1 : -1; //Don't get stuck in the edges
+		}
+		if (y > GameImpl.HEIGHT || y < 0){
+			vy *= -1;
+			y += y < 0 ? 1 : -1;
+		}
+		
+		
 		double dx = vx * deltaNanoTime;
 		double dy = vy * deltaNanoTime;
 		x += dx;
