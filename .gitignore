@@ -5,3 +5,5 @@ Project2.zip
 Cache/
 .list
 *.list
+.metadata/
+.recommenders/
