@@ -38,20 +38,8 @@ public class Brick {
 		rectangle = new Rectangle(0, 0, BRICK_WIDTH, BRICK_HEIGHT);
 		setLayout(rectangle,count);
 		Random rand = new Random();
-		int num = rand.nextInt(4);
-		Color color = Color.GREEN;
-		if(num==1){
-			color = Color.BLUE;
-		}
-		else if(num==2){
-			color = Color.RED;
-		}
-		else if(num==3){
-			color = Color.YELLOW;
-		}
-		else if(num==4){
-			color = Color.ORANGE;
-		}
+		Color color = new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), 1);
+		
 		rectangle.setStroke(color);
 		rectangle.setFill(color);
 	}
