@@ -17,13 +17,13 @@ public class GameImpl extends Pane implements Game {
 	}
 
 	// Constants
-	public static final int WIDTH 			= 400;
-	public static final int HEIGHT 			= 600;
 	public static final int BRICK_ROWS 		= 5;
 	public static final int BRICK_COLUMNS 	= 9;
 	public static final int BRICK_GAP		= 15;
 	public static final int BRICK_Y_OFFSET	= 15;
 	public static final int BRICK_X_OFFSET	= 15;
+	public static final int WIDTH 			= BRICK_X_OFFSET + (BRICK_COLUMNS * (BRICK_GAP + Brick.BRICK_WIDTH));
+	public static final int HEIGHT 			= 600;
 
 	// Instance variables
 	private Ball ball;
