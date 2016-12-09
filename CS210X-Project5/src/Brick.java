@@ -57,13 +57,9 @@ public class Brick {
 	}
 	
 	public void setLayout(Rectangle rect, int num){
-		rectangle.setLayoutX(40*(num%6)+20);
-		if(num<5){
-			rectangle.setLayoutY(40);
-		}
-		else{
-			rectangle.setLayoutY(80);
-		}
+		rectangle.setLayoutX(80*(num%5+1)-55);
+		rectangle.setLayoutY(80*(num/5+1));
+			
 	}
 	/**
 	 * @return the Rectangle object that represents the paddle on the game board.

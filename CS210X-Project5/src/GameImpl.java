@@ -55,7 +55,7 @@ public class GameImpl extends Pane implements Game {
 		getChildren().add(ball.getCircle());  // Add the ball to the game board
 
 		// Create and add animals ...
-		for(int i=1;i<=10;i++){
+		for(int i=0;i<10;i++){
 			getChildren().add(new Brick(i).getRectangle());
 		}
 
