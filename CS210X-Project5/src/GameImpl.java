@@ -17,25 +17,15 @@ public class GameImpl extends Pane implements Game {
 	}
 
 	// Constants
-	/**
-	 * The width of the game board.
-	 */
 	public static final int WIDTH = 400;
-	/**
-	 * The height of the game board.
-	 */
 	public static final int HEIGHT = 600;
 
 	// Instance variables
 	private Ball ball;
 	private Paddle paddle;
 
-	/**
-	 * Constructs a new GameImpl.
-	 */
 	public GameImpl () {
 		setStyle("-fx-background-color: white;");
-
 		restartGame(GameState.NEW);
 	}
 
@@ -54,7 +44,7 @@ public class GameImpl extends Pane implements Game {
 		ball = new Ball();
 		getChildren().add(ball.getCircle());  // Add the ball to the game board
 
-		// Create and add animals ...
+		// Create and add bricks
 		for(int i=1;i<=10;i++){
 			getChildren().add(new Brick(i).getRectangle());
 		}
@@ -78,18 +68,13 @@ public class GameImpl extends Pane implements Game {
 		getChildren().add(startLabel);
 
 		// Add event handler to start the game
-		setOnMouseClicked(new EventHandler<MouseEvent> () {
-			@Override
-			public void handle (MouseEvent e) {
+		setOnMouseClicked(e-> {
 				GameImpl.this.setOnMouseClicked(null);
 
-				// As soon as the mouse is clicked, remove the startLabel from the game board
+				//Remove start label on game start
 				getChildren().remove(startLabel);
 				run();
-			}
 		});
-
-		// Add another event handler to steer paddle...
 	}
 
 	/**
