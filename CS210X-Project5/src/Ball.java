@@ -66,8 +66,12 @@ public class Ball {
 			//Who doesn't like stack exchange?
 			//http://gamedev.stackexchange.com/questions/4253/in-pong-how-do-you-calculate-the-balls-direction-when-it-bounces-off-the-paddl
 			
-			vy *= -1;
-			
+			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
+			double normalizedRIntersect = relativeIntersect / (Paddle.PADDLE_WIDTH / 2.0);
+			double angle = normalizedRIntersect * (5.0 * Math.PI / 12.0); //75 degrees
+			double speed = Math.sqrt(vx*vx + vy*vy);
+			vx = speed*Math.cos(angle);
+			vy = -speed*Math.sin(angle);
 		}
 
 		if (x > GameImpl.WIDTH || x < 0){
