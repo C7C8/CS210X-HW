@@ -17,8 +17,13 @@ public class GameImpl extends Pane implements Game {
 	}
 
 	// Constants
-	public static final int WIDTH = 400;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH 			= 400;
+	public static final int HEIGHT 			= 600;
+	public static final int BRICK_ROWS 		= 5;
+	public static final int BRICK_COLUMNS 	= 9;
+	public static final int BRICK_GAP		= 15;
+	public static final int BRICK_Y_OFFSET	= 15;
+	public static final int BRICK_X_OFFSET	= 15;
 
 	// Instance variables
 	private Ball ball;
@@ -44,9 +49,12 @@ public class GameImpl extends Pane implements Game {
 		ball = new Ball();
 		getChildren().add(ball.getCircle());  // Add the ball to the game board
 		
-		// Create and add animals ...
-		for(int i=0;i<10;i++){
-			getChildren().add(new Brick(i).getRectangle());
+		// Create and add bricks
+		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
+			for (int iY = 0; iY < BRICK_ROWS; iY++){
+				getChildren().add(new Brick(iX * (Brick.BRICK_WIDTH + BRICK_GAP) + BRICK_X_OFFSET,
+											iY * (Brick.BRICK_HEIGHT + BRICK_GAP) + BRICK_Y_OFFSET).getRectangle());
+			}
 		}
 
 		// Create and add paddle
