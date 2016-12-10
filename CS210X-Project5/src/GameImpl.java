@@ -28,7 +28,7 @@ public class GameImpl extends Pane implements Game {
 	private int bottomTouches;
 
 	public GameImpl () {
-		final AudioClip sound = new AudioClip(getClass().getClassLoader().getResource("shatter-argonrefinery.mp3").toString());
+		final AudioClip sound = new AudioClip(getClass().getClassLoader().getResource("shatter-argonrefinery.wav").toString());
 		sound.play();
 		setStyle("-fx-background-color: white;");
 		restartGame(GameState.NEW);
