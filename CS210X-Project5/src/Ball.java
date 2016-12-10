@@ -1,6 +1,7 @@
 import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Class that implements a ball with a position and velocity.
@@ -64,13 +65,11 @@ public class Ball {
 		vx = newSpeed * Math.cos(angle);
 	}
 	
-	public boolean intersectBrick(Brick brick){
-		//TODO Write "intersectRect" function to deduplicate this code and the paddle
-		//intersection's code
-		return brick.getX() - Brick.BRICK_WIDTH/2 < x + BALL_RADIUS &&
-			   brick.getX() + Brick.BRICK_WIDTH/2 > x - BALL_RADIUS &&
-			   brick.getY() - Brick.BRICK_HEIGHT/2 < y + BALL_RADIUS &&
-			   brick.getY() + Brick.BRICK_HEIGHT/2 > y - BALL_RADIUS;
+	public boolean interesectRect(Rectangle rect){
+		return  rect.getLayoutX() + rect.getTranslateX() - rect.getWidth() < x + BALL_RADIUS &&
+				rect.getLayoutX() + rect.getTranslateX() + rect.getWidth() > x - BALL_RADIUS &&
+				rect.getLayoutY() + rect.getTranslateY() - rect.getHeight() < y + BALL_RADIUS &&
+				rect.getLayoutY() + rect.getTranslateY() + rect.getHeight() > y - BALL_RADIUS;
 	}
 
 	/**
@@ -79,10 +78,7 @@ public class Ball {
 	 * @param deltaNanoTime the number of nanoseconds that have transpired since the last update
 	 */
 	public void updatePosition (long deltaNanoTime, Paddle paddle) {
-		if (paddle.getX() - Paddle.PADDLE_WIDTH/2 < x + BALL_RADIUS &&
-			paddle.getX() + Paddle.PADDLE_WIDTH/2 > x - BALL_RADIUS &&
-			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&
-			paddle.getY() + Paddle.PADDLE_HEIGHT/2 > y - BALL_RADIUS) {
+		if (interesectRect(paddle.getRectangle())){
 			
 			//Ball reflection math courtesy of a very nice internet person on stack exchange
 			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
