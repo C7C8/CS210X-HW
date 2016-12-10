@@ -139,17 +139,20 @@ public class GameImpl extends Pane implements Game {
 		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches){
 			return GameState.LOST;
 		}
+		
 		boolean won = true;
+		double newSpeed = Ball.MAX_VEL;
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
 				if(bricks[iX][iY] != null){
 					won = false;
+					newSpeed -= Ball.MAX_VEL / (BRICK_COLUMNS * BRICK_ROWS);
 				}
 			}
 		}
-		if(won){
+		ball.setSpeed(newSpeed + Ball.INITIAL_VEL); //Ball will increase speed as number of bricks decreases
+		if (won)
 			return GameState.WON;
-		}
 
 		return GameState.ACTIVE;
 	}
