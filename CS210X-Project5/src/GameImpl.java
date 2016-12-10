@@ -1,13 +1,6 @@
 import javafx.scene.layout.*;
 import javafx.scene.control.Label;
 import javafx.animation.AnimationTimer;
-import javafx.scene.input.MouseEvent;
-import javafx.event.*;
-import java.util.*;
-import javafx.scene.media.*;            
-import javafx.scene.layout.*; 
-import javafx.scene.control.Label;
-import javafx.scene.image.*;
 public class GameImpl extends Pane implements Game {
 	/**
 	 * Defines different states of the game.

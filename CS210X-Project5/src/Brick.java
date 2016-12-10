@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.util.Random;
-
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -20,9 +18,6 @@ public class Brick {
 	}
 
 	public Brick (int newX, int newY) {
-		final double x = BRICK_WIDTH/2;
-		final double y = BRICK_HEIGHT/2;
-
 		rectangle = new Rectangle(0, 0, BRICK_WIDTH, BRICK_HEIGHT);
 		rectangle.setLayoutX(newX);
 		rectangle.setLayoutY(newY);
