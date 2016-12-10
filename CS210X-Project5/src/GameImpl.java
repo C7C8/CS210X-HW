@@ -119,14 +119,12 @@ public class GameImpl extends Pane implements Game {
 	 * @return the current game state
 	 */
 	public GameState runOneTimestep (long deltaNanoTime) {
-		if(ball.getY()>=HEIGHT){
+		if(ball.getY()+ball.BALL_RADIUS>=HEIGHT){
 			bottomTouches++;
 		}
 		ball.updatePosition(deltaNanoTime, paddle);
 		
-		
-		
-		
+				
 		// below are the tests to see how the game is going
 		if(LOSE_BOTTOM_COLLISIONS<=bottomTouches){
 			return GameState.LOST;
