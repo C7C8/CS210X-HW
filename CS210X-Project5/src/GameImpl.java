@@ -1,5 +1,7 @@
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.control.Label;
+
 import javafx.animation.AnimationTimer;
 public class GameImpl extends Pane implements Game {
 	/**
@@ -26,6 +28,8 @@ public class GameImpl extends Pane implements Game {
 	private int bottomTouches;
 
 	public GameImpl () {
+		final AudioClip sound = new AudioClip(getClass().getClassLoader().getResource("shatter-argonrefinery.mp3").toString());
+		sound.play();
 		setStyle("-fx-background-color: white;");
 		restartGame(GameState.NEW);
 	}

@@ -10,7 +10,7 @@ public class Ball {
 	// Constants
 	public static final int BALL_RADIUS 	= 8;
 	public static final double INITIAL_VEL 	= 1e-7;
-	public static final double MAX_VEL		= 5e-7; //Max vel is actually this + INITIAL_VEL
+	public static final double MAX_VEL		= 4e-7; //Max vel is actually this + INITIAL_VEL
 
 	// Instance variables
 	// (x,y) is the position of the center of the ball.
