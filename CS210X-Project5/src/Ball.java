@@ -1,25 +1,14 @@
-import java.awt.*;
+import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Class that implements a ball with a position and velocity.
  */
 public class Ball {
 	// Constants
-	/**
-	 * The radius of the ball.
-	 */
-	public static final int BALL_RADIUS = 8;
-	/**
-	 * The initial velocity of the ball in the x direction.
-	 */
-	public static final double INITIAL_VX = 1e-7;
-	/**
-	 * The initial velocity of the ball in the y direction.
-	 */
-	public static final double INITIAL_VY = 1e-7;
+	public static final int BALL_RADIUS 	= 8;
+	public static final double INITIAL_VEL 	= 2e-7;
 
 	// Instance variables
 	// (x,y) is the position of the center of the ball.
@@ -42,26 +31,37 @@ public class Ball {
 	}
 
 	/**
-	 * @return the Circle object that represents the ball on the game board.
-	 */
-	public Circle getCircle () {
-		return circle;
-	}
-
-	/**
 	 * Constructs a new Ball object at the centroid of the game board
 	 * with a default velocity that points down and right.
 	 */
 	public Ball () {
 		x = GameImpl.WIDTH/2;
 		y = GameImpl.HEIGHT/2;
-		vx = INITIAL_VX;
-		vy = INITIAL_VY;
+		Random rand = new Random();
+		vx = INITIAL_VEL * Math.cos(rand.nextDouble() * Math.PI);
+		vy = INITIAL_VEL * Math.sin(rand.nextDouble() * Math.PI);
 
 		circle = new Circle(BALL_RADIUS, BALL_RADIUS, BALL_RADIUS);
 		circle.setLayoutX(x - BALL_RADIUS);
 		circle.setLayoutY(y - BALL_RADIUS);
 		circle.setFill(Color.BLACK);
+	}
+
+	/**
+	 * @return the Circle object that represents the ball on the game board.
+	 */
+	public Circle getCircle () {
+		return circle;
+	}
+
+	public double getSpeed(){
+		return Math.sqrt(vx*vx+vy*vy);
+	}
+
+	public void setSpeed(double newSpeed){
+		double angle = Math.atan2(vy, vx);
+		vy = newSpeed * Math.sin(angle);
+		vx = newSpeed * Math.cos(angle);
 	}
 
 	/**
@@ -78,20 +78,22 @@ public class Ball {
 			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&
 			paddle.getY() + Paddle.PADDLE_HEIGHT/2 > y - BALL_RADIUS) {
 			
-			//Who doesn't like stack exchange?
-			//http://gamedev.stackexchange.com/questions/4253/in-pong-how-do-you-calculate-the-balls-direction-when-it-bounces-off-the-paddl
-			
-			vy *= -1;
-			
+			//Ball reflection math courtesy of a very nice internet person on stack exchange
+			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
+			double normalizedRIntersect = relativeIntersect / (Paddle.PADDLE_WIDTH / 2.0);
+			double angle = normalizedRIntersect * (5.0 * Math.PI / 12.0); //75 degrees
+			double speed = getSpeed();
+			vx = speed*Math.cos(angle);
+			vy = (y < paddle.getY() ? -1 : 1) * speed*Math.sin(angle);
 		}
 
-		if (x > GameImpl.WIDTH || x < 0){
+		if (x > GameImpl.WIDTH - BALL_RADIUS|| x < BALL_RADIUS){
 			vx *= -1;
-			x += x < 0 ? 1 : -1; //Don't get stuck in the edges
+			x += x < BALL_RADIUS ? 1 : -1; //Don't get stuck in the edges
 		}
-		if (y > GameImpl.HEIGHT || y < 0){
+		if (y > GameImpl.HEIGHT - BALL_RADIUS || y < BALL_RADIUS){
 			vy *= -1;
-			y += y < 0 ? 1 : -1;
+			y += y < BALL_RADIUS ? 1 : -1;
 		}
 		
 		
