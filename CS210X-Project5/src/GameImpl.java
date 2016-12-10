@@ -86,7 +86,7 @@ public class GameImpl extends Pane implements Game {
 		
 		//Event handler for moving the paddle
 		setOnMouseMoved(e -> {
-			paddle.moveTo(e.getX(), paddle.getY());
+			paddle.moveTo(e.getX(), e.getY() < Paddle.MAX_Y_LOCATION_FRAC * HEIGHT ? e.getY() : Paddle.MAX_Y_LOCATION_FRAC * HEIGHT);
 		});
 	}
 

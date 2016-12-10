@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Random;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -8,18 +10,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class Ball {
 	// Constants
-	/**
-	 * The radius of the ball.
-	 */
-	public static final int BALL_RADIUS = 8;
-	/**
-	 * The initial velocity of the ball in the x direction.
-	 */
-	public static final double INITIAL_VX = 1e-7;
-	/**
-	 * The initial velocity of the ball in the y direction.
-	 */
-	public static final double INITIAL_VY = 1e-7;
+	public static final int BALL_RADIUS 	= 8;
+	public static final double INITIAL_VEL 	= 15e-8;
 
 	// Instance variables
 	// (x,y) is the position of the center of the ball.
@@ -41,8 +33,9 @@ public class Ball {
 	public Ball () {
 		x = GameImpl.WIDTH/2;
 		y = GameImpl.HEIGHT/2;
-		vx = INITIAL_VX;
-		vy = INITIAL_VY;
+		Random rand = new Random();
+		vx = INITIAL_VEL * Math.cos(rand.nextDouble() * Math.PI);
+		vy = INITIAL_VEL * Math.sin(rand.nextDouble() * Math.PI);
 
 		circle = new Circle(BALL_RADIUS, BALL_RADIUS, BALL_RADIUS);
 		circle.setLayoutX(x - BALL_RADIUS);
@@ -63,15 +56,13 @@ public class Ball {
 			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&
 			paddle.getY() + Paddle.PADDLE_HEIGHT/2 > y - BALL_RADIUS) {
 			
-			//Who doesn't like stack exchange?
-			//http://gamedev.stackexchange.com/questions/4253/in-pong-how-do-you-calculate-the-balls-direction-when-it-bounces-off-the-paddl
-			
+			//Ball reflection math courtesy of a very nice internet person on stack exchange
 			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
 			double normalizedRIntersect = relativeIntersect / (Paddle.PADDLE_WIDTH / 2.0);
 			double angle = normalizedRIntersect * (5.0 * Math.PI / 12.0); //75 degrees
 			double speed = Math.sqrt(vx*vx + vy*vy);
 			vx = speed*Math.cos(angle);
-			vy = -speed*Math.sin(angle);
+			vy = (y < paddle.getY() ? -1 : 1) * speed*Math.sin(angle);
 		}
 
 		if (x > GameImpl.WIDTH || x < 0){
