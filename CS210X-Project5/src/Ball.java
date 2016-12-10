@@ -26,6 +26,20 @@ public class Ball {
 	private double x, y;
 	private double vx, vy;
 	private Circle circle;
+	
+	/**
+	 * @return the x position of the ball.
+	 */
+	public double getX(){
+		return x;
+	}
+	
+	/**
+	 * @return the y position of the ball.
+	 */
+	public double getY(){
+		return y;
+	}
 
 	/**
 	 * @return the Circle object that represents the ball on the game board.
@@ -58,6 +72,7 @@ public class Ball {
 	public void updatePosition (long deltaNanoTime, Paddle paddle) {
 		//rect1 = paddle
 		//rect2 = ball
+		
 		if (paddle.getX() - Paddle.PADDLE_WIDTH/2 < x + BALL_RADIUS &&
 			paddle.getX() + Paddle.PADDLE_WIDTH/2 > x - BALL_RADIUS &&
 			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&

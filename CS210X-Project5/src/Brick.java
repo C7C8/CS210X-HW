@@ -32,13 +32,6 @@ public class Brick {
 		rectangle.setStroke(color);
 		rectangle.setFill(color);
 	}
-	
-	public void setLayout(Rectangle rect, int num){
-		rectangle.setLayoutX(80*(num%5+1)-55);
-		rectangle.setLayoutY(80*(num/5+1));
-			
-	}
-	
 	public Rectangle getRectangle () {
 		return rectangle;
 	}

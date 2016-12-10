@@ -24,10 +24,13 @@ public class GameImpl extends Pane implements Game {
 	public static final int BRICK_X_OFFSET	= 15;
 	public static final int WIDTH 			= BRICK_X_OFFSET + (BRICK_COLUMNS * (BRICK_GAP + Brick.BRICK_WIDTH));
 	public static final int HEIGHT 			= 600;
+	public static final int LOSE_BOTTOM_COLLISIONS = 5;
 
 	// Instance variables
 	private Ball ball;
 	private Paddle paddle;
+	private Brick[][] bricks = new Brick[BRICK_COLUMNS][BRICK_ROWS];
+	private int bottomTouches;
 
 	public GameImpl () {
 		setStyle("-fx-background-color: white;");
@@ -52,8 +55,10 @@ public class GameImpl extends Pane implements Game {
 		// Create and add bricks
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
-				getChildren().add(new Brick(iX * (Brick.BRICK_WIDTH + BRICK_GAP) + BRICK_X_OFFSET,
-											iY * (Brick.BRICK_HEIGHT + BRICK_GAP) + BRICK_Y_OFFSET).getRectangle());
+				Brick x = new Brick(iX * (Brick.BRICK_WIDTH + BRICK_GAP) + BRICK_X_OFFSET,
+						iY * (Brick.BRICK_HEIGHT + BRICK_GAP) + BRICK_Y_OFFSET);
+				getChildren().add(x.getRectangle()); 
+				bricks[iX][iY] = x;
 			}
 		}
 
@@ -121,8 +126,30 @@ public class GameImpl extends Pane implements Game {
 	 * @return the current game state
 	 */
 	public GameState runOneTimestep (long deltaNanoTime) {
+		if(ball.getY()>=HEIGHT){
+			bottomTouches++;
+		}
 		ball.updatePosition(deltaNanoTime, paddle);
 		
+		
+		
+		
+		// below are the tests to see how the game is going
+		if(LOSE_BOTTOM_COLLISIONS<=bottomTouches){
+			return GameState.LOST;
+		}
+		boolean won = true;
+		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
+			for (int iY = 0; iY < BRICK_ROWS; iY++){
+				if(bricks[iX][iY]!=null){
+					won = false;
+				}
+			}
+		}
+		if(won){
+			return GameState.WON;
+		}
+
 		return GameState.ACTIVE;
 	}
 }
