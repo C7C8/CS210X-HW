@@ -63,6 +63,15 @@ public class Ball {
 		vy = newSpeed * Math.sin(angle);
 		vx = newSpeed * Math.cos(angle);
 	}
+	
+	public boolean intersectBrick(Brick brick){
+		//TODO Write "intersectRect" function to deduplicate this code and the paddle
+		//intersection's code
+		return brick.getX() - Brick.BRICK_WIDTH/2 < x + BALL_RADIUS &&
+			   brick.getX() + Brick.BRICK_WIDTH/2 > x - BALL_RADIUS &&
+			   brick.getY() - Brick.BRICK_HEIGHT/2 < y + BALL_RADIUS &&
+			   brick.getY() + Brick.BRICK_HEIGHT/2 > y - BALL_RADIUS;
+	}
 
 	/**
 	 * Updates the position of the ball, given its current position and velocity,
@@ -70,9 +79,6 @@ public class Ball {
 	 * @param deltaNanoTime the number of nanoseconds that have transpired since the last update
 	 */
 	public void updatePosition (long deltaNanoTime, Paddle paddle) {
-		//rect1 = paddle
-		//rect2 = ball
-		
 		if (paddle.getX() - Paddle.PADDLE_WIDTH/2 < x + BALL_RADIUS &&
 			paddle.getX() + Paddle.PADDLE_WIDTH/2 > x - BALL_RADIUS &&
 			paddle.getY() - Paddle.PADDLE_HEIGHT/2 < y + BALL_RADIUS &&
