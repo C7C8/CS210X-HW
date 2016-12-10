@@ -50,7 +50,7 @@ public class GameImpl extends Pane implements Game {
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
 				Brick x = new Brick(iX * (Brick.BRICK_WIDTH + BRICK_GAP) + BRICK_X_OFFSET,
 						iY * (Brick.BRICK_HEIGHT + BRICK_GAP) + BRICK_Y_OFFSET);
-				getChildren().add(x.getRectangle()); 
+				getChildren().add(x.getRectangle());
 				bricks[iX][iY] = x;
 			}
 		}
@@ -119,20 +119,30 @@ public class GameImpl extends Pane implements Game {
 	 * @return the current game state
 	 */
 	public GameState runOneTimestep (long deltaNanoTime) {
-		if(ball.getY()+ball.BALL_RADIUS>=HEIGHT){
+		//Remove bricks upon ball impact
+		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
+			for (int iY = 0; iY < BRICK_ROWS; iY++){
+				if (bricks[iX][iY] != null && ball.interesectRect(bricks[iX][iY].getRectangle())){
+					getChildren().remove(bricks[iX][iY].getRectangle());
+					bricks[iX][iY] = null;
+				}
+			}
+		}
+
+		if(ball.getY() + Ball.BALL_RADIUS >= HEIGHT){
 			bottomTouches++;
 		}
 		ball.updatePosition(deltaNanoTime, paddle);
 		
 				
 		// below are the tests to see how the game is going
-		if(LOSE_BOTTOM_COLLISIONS<=bottomTouches){
+		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches){
 			return GameState.LOST;
 		}
 		boolean won = true;
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
-				if(bricks[iX][iY]!=null){
+				if(bricks[iX][iY] != null){
 					won = false;
 				}
 			}

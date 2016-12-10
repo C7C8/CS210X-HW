@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 public class Ball {
 	// Constants
 	public static final int BALL_RADIUS 	= 8;
-	public static final double INITIAL_VEL 	= 2e-7;
+	public static final double INITIAL_VEL 	= 3e-7;
 
 	// Instance variables
 	// (x,y) is the position of the center of the ball.
