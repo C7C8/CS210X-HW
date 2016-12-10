@@ -40,11 +40,12 @@ public class GameImpl extends Pane implements Game {
 
 	private void restartGame (GameState state) {
 		getChildren().clear();  // remove all components from the game
+		bottomTouches = 0;
 
 		// Create and add ball
 		ball = new Ball();
 		getChildren().add(ball.getCircle());  // Add the ball to the game board
-		
+
 		// Create and add bricks
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
@@ -133,16 +134,15 @@ public class GameImpl extends Pane implements Game {
 			}
 		}
 
-		if(ball.getY() + Ball.BALL_RADIUS >= HEIGHT){
+		if(ball.getY() + Ball.BALL_RADIUS >= HEIGHT)
 			bottomTouches++;
-		}
+
 		ball.updatePosition(deltaNanoTime, paddle);
 				
 		// below are the tests to see how the game is going
-		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches){
+		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches)
 			return GameState.LOST;
-		}
-		
+
 		boolean won = true;
 		double newSpeed = Ball.MAX_VEL;
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
@@ -153,6 +153,7 @@ public class GameImpl extends Pane implements Game {
 				}
 			}
 		}
+
 		ball.setSpeed(newSpeed + Ball.INITIAL_VEL); //Ball will increase speed as number of bricks decreases
 		if (won)
 			return GameState.WON;
