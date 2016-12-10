@@ -120,11 +120,15 @@ public class GameImpl extends Pane implements Game {
 	 */
 	public GameState runOneTimestep (long deltaNanoTime) {
 		//Remove bricks upon ball impact
+		boolean collided = false;
 		for (int iX = 0; iX < BRICK_COLUMNS; iX++){
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
 				if (bricks[iX][iY] != null && ball.interesectRect(bricks[iX][iY].getRectangle())){
+					if (!collided) //Don't double collide, it's weird
+						ball.collideWith(bricks[iX][iY].getRectangle());
 					getChildren().remove(bricks[iX][iY].getRectangle());
 					bricks[iX][iY] = null;
+					collided = true;
 				}
 			}
 		}
@@ -133,7 +137,6 @@ public class GameImpl extends Pane implements Game {
 			bottomTouches++;
 		}
 		ball.updatePosition(deltaNanoTime, paddle);
-		
 				
 		// below are the tests to see how the game is going
 		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches){

@@ -55,9 +55,23 @@ public class Ball {
 	public Circle getCircle () {
 		return circle;
 	}
-
-	public double getSpeed(){
-		return Math.sqrt(vx*vx+vy*vy);
+	
+	public void collideWith(Rectangle rect){
+		//This assumes that the ball is actually colliding with the
+		//given rectangle. Technically it doesn't have to be, which could
+		//result in some cool effects.
+		final double dX = x - rect.getX() + ((rect.getLayoutX() + rect.getTranslateX()) / 2.0);
+		final double dY = y - rect.getY() + ((rect.getLayoutY() + rect.getTranslateY()) / 2.0);
+		final double angle = Math.atan2(dY, dX);
+		
+		if (angle >= 7.0 * Math.PI / 4.0 || angle <= Math.PI / 4.0)
+			vx *= -1;
+		else if (angle > Math.PI / 4.0 && angle <= 3.0 * Math.PI / 4.0)
+			vy *= -1;
+		else if (angle > 3.0 * Math.PI / 4.0 && angle <= 5.0 * Math.PI / 4.0)
+			vx *= -1;
+		else if (angle > 5. * Math.PI / 4.0 && angle <= 7.0 * Math.PI / 4.0)
+			vy *= -1;
 	}
 
 	public void setSpeed(double newSpeed){
@@ -85,7 +99,7 @@ public class Ball {
 			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
 			double normalizedRIntersect = relativeIntersect / (Paddle.PADDLE_WIDTH / 2.0);
 			double angle = normalizedRIntersect * (5.0 * Math.PI / 12.0); //75 degrees
-			double speed = getSpeed();
+			double speed = Math.sqrt(vx*vx + vy*vy);
 			vx = speed*Math.cos(angle);
 			vy = (y < paddle.getY() ? -1 : 1) * speed*Math.sin(angle);
 		}
