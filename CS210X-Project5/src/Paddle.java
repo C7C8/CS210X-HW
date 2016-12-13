@@ -3,26 +3,11 @@ import javafx.scene.shape.Rectangle;
 
 class Paddle {
 	// Constants
-	/**
-	 * The width of the paddle.
-	 */
-	public static final int PADDLE_WIDTH = 100;
-	/**
-	 * The height of the paddle.
-	 */
-	public static final int PADDLE_HEIGHT = 5;
-	/**
-	 * The initial position (specified as a fraction of the game height) of center of the paddle.
-	 */
-	public static final double INITIAL_Y_LOCATION_FRAC = 0.8;
-	/**
-	 * The minimum position (specified as a fraction of the game height) of center of the paddle.
-	 */
-	public static final double MIN_Y_LOCATION_FRAC = 0.7;
-	/**
-	 * The maximum position (specified as a fraction of the game height) of center of the paddle.
-	 */
-	public static final double MAX_Y_LOCATION_FRAC = 0.9;
+	public static final int PADDLE_WIDTH				= 100;
+	public static final int PADDLE_HEIGHT				= 5;
+	public static final double INITIAL_Y_LOCATION_FRAC	= 0.8;
+	public static final double MIN_Y_LOCATION_FRAC		= 0.7;
+	public static final double MAX_Y_LOCATION_FRAC		= 0.9;
 
 	// Instance variables
 	private Rectangle rectangle;

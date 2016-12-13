@@ -1,10 +1,9 @@
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.control.Label;
-
 import java.net.URL;
-
 import javafx.animation.AnimationTimer;
+
 public class GameImpl extends Pane implements Game {
 	/**
 	 * Defines different states of the game.
@@ -29,6 +28,10 @@ public class GameImpl extends Pane implements Game {
 	private Brick[][] bricks = new Brick[BRICK_COLUMNS][BRICK_ROWS];
 	private int bottomTouches;
 
+	/**
+	 * Constructs a new GameImpl, starting the background music (if available)
+	 * in the process.
+	 */
 	public GameImpl () {
 		final URL soundURL = getClass().getClassLoader().getResource("shatter-argonrefinery.mp3");
 		if (soundURL != null){
@@ -41,14 +44,25 @@ public class GameImpl extends Pane implements Game {
 		restartGame(GameState.NEW);
 	}
 
+	/**
+	 * Returns the name of the game
+	 */
 	public String getName () {
 		return "Blocks";
 	}
 
+	/**
+	 * Returns 'this'. I don't know why you'd want to call this, because
+	 * if you have access to it, you already know its return value.
+	 */
 	public Pane getPane () {
 		return this;
 	}
 
+	/**
+	 * Resets the game according to the given game state.
+	 * @param state Determines the message to be displayed
+	 */
 	private void restartGame (GameState state) {
 		getChildren().clear();  // remove all components from the game
 		bottomTouches = 0;
@@ -85,7 +99,6 @@ public class GameImpl extends Pane implements Game {
 		startLabel.setLayoutY(HEIGHT / 2 + 100);
 		getChildren().add(startLabel);
 
-		// Add event handler to start the game
 		setOnMouseClicked(e-> {
 				GameImpl.this.setOnMouseClicked(null);
 
@@ -150,7 +163,7 @@ public class GameImpl extends Pane implements Game {
 
 		ball.updatePosition(deltaNanoTime, paddle);
 				
-		// below are the tests to see how the game is going
+		// below are tests to see how the game is going
 		if(LOSE_BOTTOM_COLLISIONS <= bottomTouches)
 			return GameState.LOST;
 
@@ -172,16 +185,3 @@ public class GameImpl extends Pane implements Game {
 		return GameState.ACTIVE;
 	}
 }
-/*final AudioClip sound = new AudioClip(getClass().getClassLoader().getResource(soundFilename).toString());
-	...
-	sound.play();
-
-	
- * final Image image = new Image(getClass().getResourceAsStream("duck.jpg"));
-		imageLabel = new Label("", new ImageView(image));
-		imageLabel.setLayoutX(x - image.getWidth()/2);
-		imageLabel.setLayoutY(y - image.getHeight()/2);
-		...
-		// Add the image to the game board
-		pane.getChildren().add(imageLabel);  // pane is of type Pane
-		8*/

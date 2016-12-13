@@ -56,10 +56,12 @@ public class Ball {
 		return circle;
 	}
 	
+	/**
+	 * Handle the physics side of rectangle collision; this function does
+	 * not check for an actual intersection of the ball and rectangle.
+	 * @param rect Rectangle to collide with.
+	 */
 	public void collideWith(Rectangle rect){
-		//This assumes that the ball is actually colliding with the
-		//given rectangle. Technically it doesn't have to be, which could
-		//result in some cool effects.
 		final double dX = x - rect.getX() + ((rect.getLayoutX() + rect.getTranslateX()) / 2.0);
 		final double dY = y - rect.getY() + ((rect.getLayoutY() + rect.getTranslateY()) / 2.0);
 		final double angle = Math.atan2(dY, dX);
@@ -74,12 +76,21 @@ public class Ball {
 			vy *= -1;
 	}
 
+	/**
+	 * Set the speed of this ball, but in the same direction of travel.
+	 * @param newSpeed New speed. MAKE THIS VERY LOW!
+	 */
 	public void setSpeed(double newSpeed){
 		double angle = Math.atan2(vy, vx);
 		vy = newSpeed * Math.sin(angle);
 		vx = newSpeed * Math.cos(angle);
 	}
 	
+	/**
+	 * Determines if the ball and a given rectangle are colliding.
+	 * @param rect Rectangle to check against for collisions
+	 * @return True if there's a collision, false otherwise.
+	 */
 	public boolean interesectRect(Rectangle rect){
 		return  rect.getLayoutX() + rect.getTranslateX() - rect.getWidth() < x + BALL_RADIUS &&
 				rect.getLayoutX() + rect.getTranslateX() + rect.getWidth() > x - BALL_RADIUS &&
@@ -94,8 +105,10 @@ public class Ball {
 	 */
 	public void updatePosition (long deltaNanoTime, Paddle paddle) {
 		if (interesectRect(paddle.getRectangle())){
-			
 			//Ball reflection math courtesy of a very nice internet person on stack exchange
+			//This can NOT use the collideWith function because the collisions are not
+			//"perfect" -- the ball bounces off the paddle at different angles depending on
+			//where it hits it.
 			double relativeIntersect = (paddle.getX() + Paddle.PADDLE_WIDTH/ 2.0) - x;
 			double normalizedRIntersect = relativeIntersect / (Paddle.PADDLE_WIDTH / 2.0);
 			double angle = normalizedRIntersect * (5.0 * Math.PI / 12.0); //75 degrees
@@ -112,7 +125,6 @@ public class Ball {
 			vy *= -1;
 			y += y < BALL_RADIUS ? 1 : -1;
 		}
-		
 		
 		double dx = vx * deltaNanoTime;
 		double dy = vy * deltaNanoTime;
