@@ -1,6 +1,7 @@
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import java.net.URL;
 import javafx.animation.AnimationTimer;
 
@@ -12,7 +13,10 @@ public class GameImpl extends Pane implements Game {
 		WON, LOST, ACTIVE, NEW
 	}
 
-	// Constants
+	//Statics
+	public static Image brick_red		= null;
+	public static Image brick_blue	= null;
+	public static Image brick_green	= null;
 	public static final int BRICK_ROWS 		= 5;
 	public static final int BRICK_COLUMNS 	= 9;
 	public static final int BRICK_GAP		= 15;
@@ -41,6 +45,14 @@ public class GameImpl extends Pane implements Game {
 		else
 			System.out.println("Couldn't load background music file!");
 		setStyle("-fx-background-color: white;");
+		
+		if (brick_red == null)
+			brick_red = new Image(getClass().getResourceAsStream("brick_red.png"));
+		if (brick_blue == null)
+			brick_blue = new Image(getClass().getResourceAsStream("brick_blue.png"));
+		if (brick_green == null)
+			brick_green = new Image(getClass().getResourceAsStream("brick_green.png"));
+		
 		restartGame(GameState.NEW);
 	}
 
@@ -76,7 +88,7 @@ public class GameImpl extends Pane implements Game {
 			for (int iY = 0; iY < BRICK_ROWS; iY++){
 				Brick x = new Brick(iX * (Brick.BRICK_WIDTH + BRICK_GAP) + BRICK_X_OFFSET,
 						iY * (Brick.BRICK_HEIGHT + BRICK_GAP) + BRICK_Y_OFFSET);
-				getChildren().add(x.getRectangle());
+				getChildren().add(x.getImg());
 				bricks[iX][iY] = x;
 			}
 		}
@@ -151,7 +163,7 @@ public class GameImpl extends Pane implements Game {
 				if (bricks[iX][iY] != null && ball.interesectRect(bricks[iX][iY].getRectangle())){
 					if (!collided) //Don't double collide, it's weird
 						ball.collideWith(bricks[iX][iY].getRectangle());
-					getChildren().remove(bricks[iX][iY].getRectangle());
+					getChildren().remove(bricks[iX][iY].getImg());
 					bricks[iX][iY] = null;
 					collided = true;
 				}

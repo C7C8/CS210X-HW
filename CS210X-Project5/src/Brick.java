@@ -1,5 +1,7 @@
 import java.util.Random;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class Brick {
@@ -8,6 +10,7 @@ public class Brick {
 	
 	// Instance variables
 	private Rectangle rectangle;
+	private Label img;
 	
 	/**
 	 * Gets the y position of the brick
@@ -35,16 +38,28 @@ public class Brick {
 		rectangle = new Rectangle(0, 0, BRICK_WIDTH, BRICK_HEIGHT);
 		rectangle.setLayoutX(newX);
 		rectangle.setLayoutY(newY);
-		Random rand = new Random();
+		int rand = Math.abs((new Random()).nextInt());
+		Image brickImg = GameImpl.brick_red;
+		if (rand % 3 == 0)
+			brickImg = GameImpl.brick_blue;
+		else if (rand % 3 == 1)
+			brickImg = GameImpl.brick_red;
+		else if (rand % 3 == 2)
+			brickImg = GameImpl.brick_green;
 		
-		//Create a maximum opacity rectangle of random color. Since there are 256 RGB values
-		//per color, this means there can be 2^24 = 16,777,216 kinds of bricks!
-		Color color = new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), 1);
-		
-		rectangle.setStroke(color);
-		rectangle.setFill(color);
+		img = new Label("", new ImageView(brickImg));
+		img.setLayoutX(getX() - BRICK_WIDTH/2);
+		img.setLayoutY(getY() - BRICK_HEIGHT/2);
 	}
 	
+	/**
+	 * Gets the image associated with this brick.
+	 * @return Image in the form of a label! That makes sense, right?
+	 */
+	public Label getImg() {
+		return img;
+	}
+
 	/**
 	 * Gets the underlying rectangle for this brick
 	 * @return An appropriately placed and sized rectangle
