@@ -58,6 +58,7 @@ public class GameImpl extends Pane implements Game {
 
 	/**
 	 * Returns the name of the game
+	 * @return Game name
 	 */
 	public String getName () {
 		return "Blocks";
@@ -66,6 +67,7 @@ public class GameImpl extends Pane implements Game {
 	/**
 	 * Returns 'this'. I don't know why you'd want to call this, because
 	 * if you have access to it, you already know its return value.
+	 * @return Game pane
 	 */
 	public Pane getPane () {
 		return this;

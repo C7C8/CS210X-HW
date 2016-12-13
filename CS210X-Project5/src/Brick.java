@@ -34,7 +34,7 @@ public class Brick {
 	 * @param newX X position of brick
 	 * @param newY Y position of brick
 	 */
-	public Brick (int newX, int newY) {
+	public Brick(int newX, int newY) {
 		rectangle = new Rectangle(0, 0, BRICK_WIDTH, BRICK_HEIGHT);
 		rectangle.setLayoutX(newX);
 		rectangle.setLayoutY(newY);
