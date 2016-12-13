@@ -2,6 +2,8 @@ import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.control.Label;
 
+import java.net.URL;
+
 import javafx.animation.AnimationTimer;
 public class GameImpl extends Pane implements Game {
 	/**
@@ -28,8 +30,13 @@ public class GameImpl extends Pane implements Game {
 	private int bottomTouches;
 
 	public GameImpl () {
-		final AudioClip sound = new AudioClip(getClass().getClassLoader().getResource("shatter-argonrefinery.wav").toString());
-		sound.play();
+		final URL soundURL = getClass().getClassLoader().getResource("shatter-argonrefinery.mp3");
+		if (soundURL != null){
+			final AudioClip sound = new AudioClip(soundURL.toString());
+			sound.play();
+		}
+		else
+			System.out.println("Couldn't load background music file!");
 		setStyle("-fx-background-color: white;");
 		restartGame(GameState.NEW);
 	}
